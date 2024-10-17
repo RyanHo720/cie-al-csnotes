@@ -1,0 +1,684 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ch. 16 System software and virtual machines</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ac220c5f-5356-46e5-8f2d-4817b12a6bd8" class="page sans"><header><h1 class="page-title">Ch. 16 System software and virtual machines</h1><p class="page-description"></p></header><div class="page-body"><h1 id="7fca4881-c7a0-4bfa-a137-fdd0cb50700a" class="">16.1 Purposes of an operating system (OS)</h1><ul id="03f86ae6-f467-4d62-8f57-9933946890e6" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid">Optimise use of computer resources</span><ul id="75b497d9-74b3-4bf9-8a33-051cc1b68f15" class="bulleted-list"><li style="list-style-type:circle">Implements process scheduling to ensure efficient CPU use</li></ul><ul id="981ceb39-2242-4ea9-b3e3-e68ea317dec6" class="bulleted-list"><li style="list-style-type:circle">Manages main memory usage</li></ul><ul id="14c0730e-0e98-4136-bd23-d0671afb2d0b" class="bulleted-list"><li style="list-style-type:circle">Optimises I/O, dictates whether I/O passes through CPU or not</li></ul></li></ul><ul id="53228ffc-94c2-474d-b568-6b5a6cbbdbdd" class="bulleted-list"><li style="list-style-type:disc"><span style="border-bottom:0.05em solid">Hides the complexities of the hardware</span><ul id="64c7bb14-7eea-4e4e-9c03-f7dd4639651c" class="bulleted-list"><li style="list-style-type:circle">UI allows users to interact with application programs</li></ul><ul id="931b34d7-1d76-4fbe-a0a3-376da8199fb9" class="bulleted-list"><li style="list-style-type:circle">Automatically provides drivers for new devices</li></ul><ul id="f475c3c6-26fe-4edd-bec0-0e018f53b046" class="bulleted-list"><li style="list-style-type:circle">Provides file system, organises physical storage of files on disk</li></ul><ul id="ba15247c-cbeb-4e00-ae26-06db52001097" class="bulleted-list"><li style="list-style-type:circle">Provides programming environment, removing the need for knowledge of processor functions</li></ul><ul id="2a3aac3c-6e07-4a0e-82d0-83a11a70eac4" class="bulleted-list"><li style="list-style-type:circle">Provides system calls/APIs, portability</li></ul></li></ul><ul id="445b7382-14ce-4c14-90a6-1fd03b227477" class="bulleted-list"><li style="list-style-type:disc">Kernel<ul id="fbb497be-0287-46c1-af8e-38643bd35ec5" class="bulleted-list"><li style="list-style-type:circle">Part of the operating system</li></ul><ul id="518d02ca-09d3-4bf2-a0a0-52ffec866236" class="bulleted-list"><li style="list-style-type:circle">Central component responsible for communication between hardware, software and memory</li></ul></li></ul><ul id="cf30054f-e3b4-4ae2-ad76-f5e9f787f952" class="bulleted-list"><li style="list-style-type:disc">Multitasking<ul id="baec4bf5-63c6-4fb7-9b35-cdb408220243" class="bulleted-list"><li style="list-style-type:circle">More than one program can be stored in memory, but only one can have CPU access at any given time</li></ul><ul id="4ffcafa3-7a27-4e16-b895-b4a7ba2009cd" class="bulleted-list"><li style="list-style-type:circle">Rest of the programs remain ready</li></ul></li></ul><ul id="c8b2c680-8b0b-40a2-b8c0-569ff2b14316" class="bulleted-list"><li style="list-style-type:disc">Process<ul id="cbe4afae-25ab-426f-94aa-e7075fa63547" class="bulleted-list"><li style="list-style-type:circle">A program being executed which has an associated Process Control Block in memory (a complex data structure containing all data relevant to the execution of a process)</li></ul><ul id="1afbe663-5055-4091-9547-37d8f053b43a" class="bulleted-list"><li style="list-style-type:circle">Process states<ul id="60d286fd-1c38-42a3-83de-a3d013e9e14a" class="bulleted-list"><li style="list-style-type:square">Ready: New process arrived at the memory and the PCB is created</li></ul><ul id="16e3bd95-515b-4488-a2be-8dc5d24bb48a" class="bulleted-list"><li style="list-style-type:square">Running: Has CPU access</li></ul><ul id="1fb848a8-d15b-4bc1-a06a-d5c49dd0939c" class="bulleted-list"><li style="list-style-type:square">Blocked: Cannot progress until some event has occurred</li></ul><ul id="0a50bf4c-c753-40c3-845c-7d2aaccd60c0" class="bulleted-list"><li style="list-style-type:square">Exit: When the process has finished execution</li></ul></li></ul></li></ul><ul id="b1a4acd2-0a9a-409b-8396-2486bac28aa8" class="bulleted-list"><li style="list-style-type:disc">Scheduling ensure that the computer system is able to server all requests and obtain a certain quality of service</li></ul><ul id="a6f1084e-cab5-4496-bd82-23fa68d72318" class="bulleted-list"><li style="list-style-type:disc">Interrupt:<ul id="ed17c0b2-2c99-4157-861f-5d107fabeb24" class="bulleted-list"><li style="list-style-type:circle">Causes OS kernel to invoke ISR (Interrupt Service Routine), kernel may have to decide on priority, register values stored in PCB</li></ul><ul id="e5cb711f-d138-4b35-b243-6de592cdf02f" class="bulleted-list"><li style="list-style-type:circle">Reasons: Errors, waiting for I/O, scheduler halts process</li></ul></li></ul><ul id="3b35abb2-520f-49e8-89a0-cc45ec176776" class="bulleted-list"><li style="list-style-type:disc">Low-level scheduling: Allocate processor components to complete specific tasks</li></ul><h2 id="6ae2d432-6635-4761-85cc-b78601924d4f" class="">Low level scheduling algorithms</h2><ul id="a0b1c675-4884-40bc-9e33-ea469d7941a8" class="bulleted-list"><li style="list-style-type:disc">Preemptive: Will stop the process that would have otherwise have continued to execute normally</li></ul><ol type="1" id="be7f681a-6aea-4680-8daa-b8f484c6da7a" class="numbered-list" start="1"><li>First-come-first-served<ul id="fd3171ae-6cf1-406f-84df-70578d4198f9" class="bulleted-list"><li style="list-style-type:disc">Non-preemptive</li></ul><ul id="b41ce362-76fc-4ab3-8959-7614339c8555" class="bulleted-list"><li style="list-style-type:disc">FIFO (First In First Out) queue</li></ul></li></ol><ol type="1" id="152a3fc4-3971-44a5-af06-306e32e2e208" class="numbered-list" start="2"><li>Round-robin<ul id="8c3c1ee2-3629-43fc-853f-b902c3b4a645" class="bulleted-list"><li style="list-style-type:disc">Allocates time slice to each process</li></ul><ul id="d94f0b5a-a458-45c6-82cd-91d50c05d5fa" class="bulleted-list"><li style="list-style-type:disc">Preemptive</li></ul><ul id="d7196250-240b-4e16-a2f1-441f46399235" class="bulleted-list"><li style="list-style-type:disc">Can be FIFO queue</li></ul><ul id="4b6193fb-5ea7-43a0-8175-bb58e509f305" class="bulleted-list"><li style="list-style-type:disc">Does not prioritise</li></ul></li></ol><ol type="1" id="ef68143a-7b6b-4139-940f-935f011129fa" class="numbered-list" start="3"><li>Priority-based<ul id="c6647008-1ce1-429e-87b8-541aedb48e92" class="bulleted-list"><li style="list-style-type:disc">Most complex</li></ul><ul id="7edda65c-f526-4cfb-b756-ab94d2581c5f" class="bulleted-list"><li style="list-style-type:disc">Priorities re-evaluated on queue change</li></ul><ul id="4e058433-0199-4ed0-9403-58b7f63746e2" class="bulleted-list"><li style="list-style-type:disc">Priority calculation requires computation</li></ul><ul id="9fb9fc97-1f08-47d3-ab2c-c7c7c53c2095" class="bulleted-list"><li style="list-style-type:disc">Criteria for priority time<ul id="32489807-3be1-4c0b-8441-d201070b6c93" class="bulleted-list"><li style="list-style-type:circle">Estimated time of execution</li></ul><ul id="f11f1fba-9311-4bac-a343-551212d87948" class="bulleted-list"><li style="list-style-type:circle">Estimated remaining time of execution</li></ul><ul id="97f5fb83-0b2e-4454-8829-529450875174" class="bulleted-list"><li style="list-style-type:circle">Is the CPU/IO bound?</li></ul><ul id="eb5b00d9-837c-4540-9f0c-33061abe3df0" class="bulleted-list"><li style="list-style-type:circle">Length of time spent in waiting queue</li></ul></li></ul></li></ol><ul id="7c7904d5-f114-4348-9483-487c7a507194" class="bulleted-list"><li style="list-style-type:disc">Paging<ul id="a21a99e7-2e49-4418-8299-8b9eb1c31545" class="bulleted-list"><li style="list-style-type:circle">Process split into pages, memory split into frames</li></ul><ul id="5502c8fb-7f64-42bd-b382-5482ef9ca3c6" class="bulleted-list"><li style="list-style-type:circle">All pages loaded into memory at once</li></ul></li></ul><ul id="c27a424c-1ed1-4f5e-9cae-dfb2df235c75" class="bulleted-list"><li style="list-style-type:disc">Virtual memory<ul id="db4d0ea6-8f3c-489a-b8fc-2599ef80cfd9" class="bulleted-list"><li style="list-style-type:circle">No need for all pages to be in memory</li></ul><ul id="83cb39d0-aa47-469b-97cc-8eb820f96114" class="bulleted-list"><li style="list-style-type:circle">CPU address space thus larger than physical space</li></ul><ul id="9b81d2b7-8633-48a7-904d-15e79af5dc20" class="bulleted-list"><li style="list-style-type:circle">Address resolved by memory management unit</li></ul><ul id="6c401abc-3c3f-458c-b725-451b213d1407" class="bulleted-list"><li style="list-style-type:circle">Benefits<ul id="253f202a-98f0-46e5-b0f7-b582a3872c30" class="bulleted-list"><li style="list-style-type:square">Not all of the program has to be in the memory at once</li></ul><ul id="6597655b-1a5e-4d0e-a3c5-bbc3117bf459" class="bulleted-list"><li style="list-style-type:square">Large programs can be run with or without large physical memory</li></ul></li></ul><ul id="43e240a6-ce38-4f91-869a-795d8aab83b6" class="bulleted-list"><li style="list-style-type:circle">Process<ul id="6c5f8b15-5b83-4002-b935-85b0b0379f93" class="bulleted-list"><li style="list-style-type:square">All pages on disk initially</li></ul><ul id="34d62720-d552-45c7-911b-68ae07aa752c" class="bulleted-list"><li style="list-style-type:square">More loaded into memory when process ready</li></ul><ul id="d3464808-5770-4ab9-9f1a-8c69ee3712f6" class="bulleted-list"><li style="list-style-type:square">Pages replaced from disk when needed<ul id="4f4da219-8d84-4bfe-a50c-6cfa4a360ccd" class="bulleted-list"><li style="list-style-type:disc">Can be done with FIFO queue or usage-statistics based algorithm</li></ul></li></ul></li></ul></li></ul><ul id="bfe21d50-fbbc-47ec-a79d-501777a1c289" class="bulleted-list"><li style="list-style-type:disc">Disk thrashing<ul id="a4218245-fc5b-4c88-99e7-4b28bed23dff" class="bulleted-list"><li style="list-style-type:circle">Perpetual loading/unloading of pages due to a page from disk immediately requiring the page it replaced</li></ul></li></ul><h1 id="bcbd9356-d774-4fad-9bff-52e4e78d106e" class="">16.2 OS structure</h1><ul id="bba4cecf-9323-476a-a038-099577f9fd8d" class="bulleted-list"><li style="list-style-type:disc">OS has to be structured in order to provide a platform for resource management and the provision of facilities for users</li></ul><ul id="abb2c51e-9036-4461-a45f-c1d7e70cffae" class="bulleted-list"><li style="list-style-type:disc">User mode is the one available for the user or an application program</li></ul><ul id="805c0bba-ce8c-4604-a9c9-9c6206744e7a" class="bulleted-list"><li style="list-style-type:disc">Privileged/kernel mode has the </li></ul><h1 id="a57c5790-6a13-4cb4-8552-53e2749a1bcc" class="">16.3 Virtual machine</h1><ul id="8af09c53-62b8-48bd-9892-77d2ad9dab03" class="bulleted-list"><li style="list-style-type:disc">Process interacts with software interface provided by the OS</li></ul><ul id="cad6df36-f448-4b9d-89d7-0cdf9c753b7d" class="bulleted-list"><li style="list-style-type:disc">OS kernel handles interaction with actual host hardware</li></ul><ul id="28222a79-2e6c-45bf-ad8a-b50b7674d3a1" class="bulleted-list"><li style="list-style-type:disc">Pros<ul id="0a0a58d0-0d6d-4eb5-ad40-4285e58a6741" class="bulleted-list"><li style="list-style-type:circle">Allows more than one OS to run on a system</li></ul><ul id="285102ee-0dc7-45e1-a3f5-a268bdd57ecb" class="bulleted-list"><li style="list-style-type:circle">Allows multiple copies of the same OS</li></ul></li></ul><ul id="eb8be53b-16f9-4555-9360-335eb8a9ccff" class="bulleted-list"><li style="list-style-type:disc">Cons<ul id="615a59f9-7c37-450d-a1e0-d82389d60ab0" class="bulleted-list"><li style="list-style-type:circle">Performance drop from native OS</li></ul><ul id="8f544d9f-6f61-467d-89d8-a64e9454d384" class="bulleted-list"><li style="list-style-type:circle">Time and effort needed for implementation is high</li></ul></li></ul><ul id="4cf9ce18-ffa3-4497-a63f-b920b0c8164f" class="bulleted-list"><li style="list-style-type:disc">Examples and usage<ul id="51c56eca-377c-4c94-b272-df393a5ce578" class="bulleted-list"><li style="list-style-type:circle">Used by companies wishing to use the legacy software on newer hardware and server consolidation companies</li></ul><ul id="4dfb0296-9677-4440-9ded-86f1315fe068" class="bulleted-list"><li style="list-style-type:circle">Virtualising machines allow developers to test applications on a multitude of systems without having to make expensive hardware purchases</li></ul></li></ul><h1 id="7479c18c-dce2-4c38-bb3e-22001d0a7005" class="">16.4 Translation software</h1><ul id="a552fcf8-28d9-4129-93d0-24ac7603bde9" class="bulleted-list"><li style="list-style-type:disc">Lexical analysis: The process of converting a sequence of characters to a sequence of tokens (strings with an assigned meaning)</li></ul><ul id="dcefa264-63a9-43cf-b3d3-aece0bc7ce3b" class="bulleted-list"><li style="list-style-type:disc">Syntax analysis: The process of double-checking the code for grammar mistakes (syntax errors)</li></ul><ul id="03ece611-3980-4f63-96e8-e4ef9a683632" class="bulleted-list"><li style="list-style-type:disc">Code generation: The process by which an intermediate code is generated after syntax analysis</li></ul><ul id="a379d7dd-0430-4b10-822d-215e22fedccd" class="bulleted-list"><li style="list-style-type:disc">Optimisation: A process in which the code is edited to make improvements in efficiency</li></ul><ul id="d5c0a867-b605-4195-bdd5-f911d8321383" class="bulleted-list"><li style="list-style-type:disc">For interpreters:<ul id="7d0252de-30d2-4d32-badb-5d08d36615f6" class="bulleted-list"><li style="list-style-type:circle">Analysis and code generation run for each code line as above</li></ul><ul id="4085fa45-ba05-4d1b-9a93-272adcdf718a" class="bulleted-list"><li style="list-style-type:circle">Each line executed as soon as intermediate code generated</li></ul></li></ul><ul id="29b8a08a-43d2-4540-aa00-a9256dc9e72c" class="bulleted-list"><li style="list-style-type:disc">BNF: Backus-Naur Form<ul id="66835c17-346b-4351-9a17-7d76f13ed7cd" class="bulleted-list"><li style="list-style-type:circle">Can be used as a basis for an algorithm</li></ul><ul id="834bb874-1d70-4665-8c06-9da194864456" class="bulleted-list"><li style="list-style-type:circle">Can be defined recursively</li></ul></li></ul><table id="742bd0dd-7351-4ae2-9fbf-a7520a504488" class="simple-table"><thead class="simple-table-header"><tr id="33dd4070-26bd-4b21-9358-fb689e46720b"><th id="NnrC" class="simple-table-header-color simple-table-header">Notation</th><th id="LIBS" class="simple-table-header-color simple-table-header">Meaning</th></tr></thead><tbody><tr id="ae4691c8-ccec-4015-b9bc-4c6de06f1c18"><td id="NnrC" class="">::=</td><td id="LIBS" class="">Defined by</td></tr><tr id="f389c681-f5af-4181-b9aa-28195d0a3fb0"><td id="NnrC" class="">|</td><td id="LIBS" class="">OR</td></tr><tr id="572ae438-0db4-451d-a751-9ecca54f047f"><td id="NnrC" class="">&lt;x&gt;</td><td id="LIBS" class="">Meta variable</td></tr></tbody></table><ul id="961b9aa9-eeea-41ee-af6a-2929c25b3874" class="bulleted-list"><li style="list-style-type:disc">RPN: Reverse Polish Notation<ul id="7d94bdce-7e50-41de-9bbe-1bf30fed3141" class="bulleted-list"><li style="list-style-type:circle">Used for representing algebraic expressions</li></ul><ul id="3dc3a420-e771-4ed2-bea5-10a99a618ba0" class="bulleted-list"><li style="list-style-type:circle">Operator placed after operands</li></ul></li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
