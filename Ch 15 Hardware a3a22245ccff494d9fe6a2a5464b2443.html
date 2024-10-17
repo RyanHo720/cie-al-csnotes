@@ -1,0 +1,684 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ch. 15 Hardware</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="a3a22245-ccff-494d-9fe6-a2a5464b2443" class="page sans"><header><h1 class="page-title">Ch. 15 Hardware</h1><p class="page-description"></p></header><div class="page-body"><h1 id="29965e0e-d053-4395-b7e2-47da3d39af6b" class="">15.1 Processors and parallel processing</h1><h2 id="f542a26d-ae82-4231-97a6-fe45f28105c4" class="">RISC and CISC processors</h2><p id="3233dc77-b0e2-47a6-a53f-a05f36896456" class="">RISC: Reduced instruction set computer</p><p id="f5ebd643-2fa4-4747-a38e-3d914238132d" class="">CISC: Complex instruction set computer</p><h3 id="ceec3e6b-7525-49cb-b8c1-a260199f3651" class="">RISC processors</h3><ul id="8e557a43-ef2a-4735-b4ea-29c897d9acd0" class="bulleted-list"><li style="list-style-type:disc"><strong>Breaking up the assembly code instructions into a number of simpler single-cycle instructions</strong></li></ul><ul id="2274ceb6-d2e1-49b0-b7cd-31d332ac18b8" class="bulleted-list"><li style="list-style-type:disc">Optimised set of instructions</li></ul><ul id="856bb326-aa3d-4a64-bfea-d3957922624d" class="bulleted-list"><li style="list-style-type:disc">Fewer built-in instruction formats</li></ul><ul id="d70bd28c-4f35-49c5-ad0f-c5b88158cbfb" class="bulleted-list"><li style="list-style-type:disc">Higher processor performance</li></ul><h3 id="c0b37aa3-8c90-4563-98b4-5987f2787832" class="">CISC processors</h3><ul id="48dd2502-a506-49dd-8186-fdec71bc1b57" class="bulleted-list"><li style="list-style-type:disc"><strong>Based on single complex instructions which need to be converted by the processor into a number of sub-instructions to carry out the required operation</strong></li></ul><ul id="c2233ba7-9698-47e2-8c3e-0241246bd60d" class="bulleted-list"><li style="list-style-type:disc">Makes use of more internal instruction formats</li></ul><ul id="c524f273-a27b-4501-b0ce-8c4d3f933157" class="bulleted-list"><li style="list-style-type:disc">Carrying out a given task with minimal lines of assembly code</li></ul><ul id="6f76165e-9972-4292-aee3-2f0a24863e80" class="bulleted-list"><li style="list-style-type:disc">Hardware must be capable of handling more complex assembly code instructions</li></ul><table id="2013a948-e161-405b-918d-1ce8ea7ccfb0" class="simple-table"><thead class="simple-table-header"><tr id="1fe49285-093e-43db-bc91-f593f4d59616"><th id="&gt;|aC" class="simple-table-header-color simple-table-header">RISC</th><th id="@`Uo" class="simple-table-header-color simple-table-header">CISC</th></tr></thead><tbody><tr id="d731b187-d58d-4e22-8893-98f3253bbfb2"><td id="&gt;|aC" class="">Fewer instructions</td><td id="@`Uo" class="">More instructions</td></tr><tr id="ad6eeaca-619f-45b8-ba83-4eccc8a57e59"><td id="&gt;|aC" class="">Simpler instructions</td><td id="@`Uo" class="">More complex instructions</td></tr><tr id="e28821c5-91cc-4435-8319-ab6fb152add6"><td id="&gt;|aC" class="">Smaller number of instruction formats</td><td id="@`Uo" class="">Many instruction formats</td></tr><tr id="9187d3d6-57f0-4aee-85c5-0a5f3cc43978"><td id="&gt;|aC" class="">Single-cycle instructions whenever possible</td><td id="@`Uo" class="">Multi-cycle instructions</td></tr><tr id="8a271f41-9049-4687-afa0-7ec8df198a44"><td id="&gt;|aC" class="">Fixed-length instructions</td><td id="@`Uo" class="">Variable-length instructions</td></tr><tr id="d835e1df-f488-40df-90ba-944b0865659f"><td id="&gt;|aC" class="">Only load and and store instructions to address memory</td><td id="@`Uo" class="">Many types of instructions to address memory</td></tr><tr id="f262f4e6-2a03-435b-b2a8-9d9f2548d279"><td id="&gt;|aC" class="">Fewer addressing modes</td><td id="@`Uo" class="">More addressing modes</td></tr><tr id="8f393cc9-23ba-4577-957b-681aca31c6eb"><td id="&gt;|aC" class="">Multiple register sets</td><td id="@`Uo" class="">Fewer registers</td></tr><tr id="a4cfb3cd-0194-4580-9702-0e19f608ca1e"><td id="&gt;|aC" class="">Hard-wired control unit</td><td id="@`Uo" class="">Microprogrammed control unit</td></tr><tr id="52aae068-225c-478c-bf5b-bb195472f84b"><td id="&gt;|aC" class="">Pipelining easier</td><td id="@`Uo" class="">Pipelining more difficult</td></tr></tbody></table><h3 id="c6616ec3-3891-4aee-9a4c-318315e000eb" class="">Pipelining</h3><ul id="1a035856-8fcd-40a3-ad2d-00a69e2c0077" class="bulleted-list"><li style="list-style-type:disc">Perk of RISC</li></ul><ul id="1bb29872-425b-4e05-8eb3-c8b16f6fb060" class="bulleted-list"><li style="list-style-type:disc">Allows several instructions to be processed simultaneously without having to wait for previous instructions to be completed</li></ul><h3 id="4a0d901a-a03b-4cd4-a652-d54e03663641" class="">Interrupts</h3><ul id="4f08562c-abee-4cc2-bc02-aa222425938c" class="bulleted-list"><li style="list-style-type:disc">Once the processor detects the existence of an interrupt, the current program would be temporarily stopped and the status of each register is stored</li></ul><ul id="cdcee17f-5709-41e9-9653-239a3617954d" class="bulleted-list"><li style="list-style-type:disc">The processor can be restored to its original status</li></ul><h2 id="c3a1acb6-0d25-4cb6-af4e-fd48ad0b0f1e" class="">Parallel processing</h2><h3 id="d230c042-454e-4689-8e06-07e79ee7aa86" class="">SISD (Single instruction single data stream)</h3><ul id="7825ea3d-7c93-4e17-a909-7b277493fc8f" class="bulleted-list"><li style="list-style-type:disc">Uses a single processor</li></ul><ul id="1f15275f-be21-4539-b303-f8e85f3c8883" class="bulleted-list"><li style="list-style-type:disc">Handles a single instruction which uses one data source at a time</li></ul><ul id="cf4cc7bc-f9bf-4fb3-ae05-2fd6a20261ec" class="bulleted-list"><li style="list-style-type:disc">Each task is processed in sequential order</li></ul><ul id="1a8723d0-28fa-4a23-8a66-2b8d9c5c2484" class="bulleted-list"><li style="list-style-type:disc">Does not allow for parallel processing</li></ul><ul id="71ea8953-17ee-46c5-bf1b-68298dbd0683" class="bulleted-list"><li style="list-style-type:disc">Found in early personal computers</li></ul><h3 id="d9c4a551-e575-4124-a589-6c37a6b4b4ea" class="">SIMD (Single instruction multiple data stream)</h3><ul id="e014fc23-4579-449b-8d9c-22eda5cf7cbd" class="bulleted-list"><li style="list-style-type:disc">Uses many processors</li></ul><ul id="4f997c40-1a0c-4400-b092-395f3e4cef38" class="bulleted-list"><li style="list-style-type:disc">Each processor executes the same instruction but uses different data inputs</li></ul><ul id="34f9404b-f8b1-4594-9075-b1369d3b1696" class="bulleted-list"><li style="list-style-type:disc">Doing the same calculations but on different data at the same time</li></ul><ul id="b8eda9cd-6911-4328-bfd0-555b48e6f685" class="bulleted-list"><li style="list-style-type:disc">“Array processors”</li></ul><ul id="98751a35-47a7-42e6-a95e-e28e0e1e9253" class="bulleted-list"><li style="list-style-type:disc">Application in graphic cards<ul id="45e1930b-24e7-4593-bf10-16ca01956cc8" class="bulleted-list"><li style="list-style-type:circle">For example, the brightness of an image made up of 4000 pixels needs to be increased</li></ul><ul id="e8bbe587-8153-47a4-9a78-b355ed669702" class="bulleted-list"><li style="list-style-type:circle">Can work on many data items at the same time, so 4000 small processors can each alter the brightness of each pixel by the same amount at the same time</li></ul></li></ul><ul id="811ed593-67fa-4ff1-9f90-59a327d3203f" class="bulleted-list"><li style="list-style-type:disc">Application in sound sampling, or any application where a large number of items need to be altered by the same amount</li></ul><h3 id="7552a4f3-c2c8-49f4-bc45-f3f922ba2ff0" class="">MISD (Multiple instruction single data stream)</h3><ul id="f890b162-a6ae-4751-8767-7664c05b957e" class="bulleted-list"><li style="list-style-type:disc">Uses many processors</li></ul><ul id="1e8a9345-c2f0-46d7-bcaa-6f37d0901d0f" class="bulleted-list"><li style="list-style-type:disc">Each processor uses different instructions but uses the same shared data source</li></ul><ul id="a631784c-43c2-4a34-85bd-75e6b28635e6" class="bulleted-list"><li style="list-style-type:disc">Implemented in a fault-tolerant system</li></ul><ul id="c87810cc-b9a1-41c5-8564-261b37380f2e" class="bulleted-list"><li style="list-style-type:disc">Output would only be accepted if the same output was produced by all the processors</li></ul><h3 id="fe3f36fc-1862-49e2-af94-35757a779b34" class="">MIMD (Multiple instruction single data stream)</h3><ul id="7ad8ecf9-2dac-4018-ac90-a8be1190eb28" class="bulleted-list"><li style="list-style-type:disc">Similar to SIMD with more than one processing unit receiving the parallel data streams</li></ul><ul id="254c6743-06de-4263-b1bb-d1b49f10eeb9" class="bulleted-list"><li style="list-style-type:disc">The difference is that each processing unit does not execute the same instruction</li></ul><ul id="7d59dd19-2f80-485f-94d4-d7f567ddbeae" class="bulleted-list"><li style="list-style-type:disc">Multiple data stream can be provided by a single memory</li></ul><h3 id="5c89bf0d-922a-495c-ab48-d0e4d09570ed" class="">Parallel computer systems</h3><ul id="4dd54120-4571-44ff-b076-b03d47a08b5a" class="bulleted-list"><li style="list-style-type:disc">The MIMD architecture can be implemented in multicomputer systems known as massively parallel computers</li></ul><ul id="33038080-1d28-4b22-8721-7b99bdaa4a3b" class="bulleted-list"><li style="list-style-type:disc">Used by large organisations for computations involving highly complex mathematical processing</li></ul><ul id="bd5ab042-bc2e-4762-9055-7a2056be2e25" class="bulleted-list"><li style="list-style-type:disc">By linking computers together in this way</li></ul><ul id="a7958ce0-2bab-4a8f-bae6-af379a28a083" class="bulleted-list"><li style="list-style-type:disc">Massively increases the processing power of the single machine</li></ul><ul id="3c8deb18-239f-4cb9-953d-975ce4c43520" class="bulleted-list"><li style="list-style-type:disc">Each processor will carry out part of the processing</li></ul><ul id="4a5b8bd2-5fbc-4627-815f-25f78cf3f0d0" class="bulleted-list"><li style="list-style-type:disc">Communication between computers is achieved via interconnected data pathways</li></ul><h1 id="c88a0c1b-d308-4dad-888a-539c5caf501b" class="">15.2 Boolean algebra and logic circuits</h1><h2 id="04daa78b-ae10-4900-94f1-3c97ae6960df" class="">Boolean algebra</h2><table id="d6daf3bd-eb1a-482f-909f-84159a9dd8c1" class="simple-table"><tbody><tr id="d8e3f825-e210-43da-afca-85905e411a53"><th id="r&lt;_f" class="simple-table-header-color simple-table-header">Commutative Laws</th><td id="V}hr" class="">A + B = B + A</td><td id="vZ^&lt;" class="">A.B = B.A</td></tr><tr id="01669c04-8cb0-40be-ac02-7309237af8ed"><th id="r&lt;_f" class="simple-table-header-color simple-table-header">Associative Laws</th><td id="V}hr" class="">A + (B + C) = (A + B) + C</td><td id="vZ^&lt;" class="">A.(B.C) = (A.B).C</td></tr><tr id="ed804f9a-e442-4c55-85de-9dff8273f1e6"><th id="r&lt;_f" class="simple-table-header-color simple-table-header"><strong><span style="border-bottom:0.05em solid">Distributive Laws</span></strong></th><td id="V}hr" class=""><span style="border-bottom:0.05em solid"><strong>A.(B + C) = (A.B) + (A.C)<br/>(A + B).(A + C) = A + B.C<br/></strong></span></td><td id="vZ^&lt;" class=""><span style="border-bottom:0.05em solid"><strong>A + (B.C) = (A + B).(A + C)</strong></span></td></tr><tr id="a0a08652-9047-41c2-b303-11c00403e808"><th id="r&lt;_f" class="simple-table-header-color simple-table-header">Idempotent Laws</th><td id="V}hr" class="">A.A = A</td><td id="vZ^&lt;" class="">A + A = A</td></tr><tr id="d8a6638a-72f7-436e-a260-7b27e3b2727e"><th id="r&lt;_f" class="simple-table-header-color simple-table-header">Identity Laws</th><td id="V}hr" class="">1.A = A</td><td id="vZ^&lt;" class="">0 + A = A</td></tr><tr id="eac100bf-c9f2-48c5-bbbf-a3ac9ef857ec"><th id="r&lt;_f" class="simple-table-header-color simple-table-header">Null Laws</th><td id="V}hr" class="">0.A = 0</td><td id="vZ^&lt;" class="">1 + A = 1</td></tr><tr id="71a68508-e052-42e3-a98b-4948989caf4e"><th id="r&lt;_f" class="simple-table-header-color simple-table-header">Inverse Laws</th><td id="V}hr" class="">A.!A = 0</td><td id="vZ^&lt;" class="">A + !A = 1</td></tr><tr id="73a82440-647c-4269-b766-505191a26366"><th id="r&lt;_f" class="simple-table-header-color simple-table-header"><strong>Absorption Laws</strong></th><td id="V}hr" class=""><strong>A.(A + B) = A<br/>A + (A.B) = A<br/></strong></td><td id="vZ^&lt;" class=""><strong>A + (A.B) = A<br/>A + (!A.B) = A + B<br/></strong></td></tr><tr id="0689fec1-5e95-4ad5-9f66-88f9da510e40"><th id="r&lt;_f" class="simple-table-header-color simple-table-header">De Morgan’s Laws</th><td id="V}hr" class="">!(A.B) = !A + !B</td><td id="vZ^&lt;" class="">!(A + B) = !A.!B</td></tr></tbody></table><h2 id="9cfb9f0d-8ce9-4a4a-8439-d3b5b4006a0b" class="">Further logic circuits</h2><ul id="1564aab0-dcdd-4352-b32b-2667633e5a54" class="bulleted-list"><li style="list-style-type:disc">Combination circuit (output depends entirely on the input values)</li></ul><p id="75e84cc5-121d-4fe9-a2c9-fea84519d375" class="">Two important logic circuits used in computers are</p><ul id="a9bff170-baef-46c4-8589-ca4254563300" class="bulleted-list"><li style="list-style-type:disc">the half adder circuit</li></ul><ul id="ed79628a-b591-4e0b-b3c0-4981e949d012" class="bulleted-list"><li style="list-style-type:disc">the full adder circuit</li></ul><h3 id="85c5b1c6-7b74-4ced-8b97-5e312fff1ea5" class="">Half adder</h3><figure id="8dd1d718-d1da-4fa9-a7be-76a6b4eeda60" class="image"><a href="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled.webp"><img style="width:708px" src="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled.webp"/></a></figure><ul id="7a95042b-0275-407f-9514-73c8b157eed4" class="bulleted-list"><li style="list-style-type:disc">Simplest circuit</li></ul><ul id="dece2990-d8b3-4e05-8488-4db9832ab207" class="bulleted-list"><li style="list-style-type:disc">Carries binary addition on 2 bits generating two outputs<ul id="c418ef13-0fba-434f-9982-2f46ad6987ab" class="bulleted-list"><li style="list-style-type:circle">the sum bit (S)</li></ul><ul id="dccadda9-1735-4e5e-b4ea-648392b23405" class="bulleted-list"><li style="list-style-type:circle">the carry bit (C)</li></ul></li></ul><ul id="0783b6a4-1c41-462b-9463-52f33f5858e8" class="bulleted-list"><li style="list-style-type:disc">Cannot deal with the addition of several binary bits</li></ul><h3 id="b59cac22-ab9c-49cb-aac1-93b09dec45f5" class="">Full adder</h3><figure id="dced8769-dd48-4724-b936-bc788c33d549" class="image"><a href="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled.png"><img style="width:708px" src="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled.png"/></a></figure><figure id="64800c61-db9e-404a-9257-e67e0c994897" class="image"><a href="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled%201.png"><img style="width:708px" src="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled%201.png"/></a></figure><ul id="1937a665-4202-40b4-a8ca-693a67b3b5de" class="bulleted-list"><li style="list-style-type:disc">Formed of two half adders</li></ul><ul id="110e20c9-0301-4156-b0c1-f9a1d605714f" class="bulleted-list"><li style="list-style-type:disc">To deal with the carry bit</li></ul><h2 id="c2cabd3a-a059-421c-a88f-1ef451c03f27" class="">Flip-flop circuits</h2><ul id="cda58ce8-bc49-483d-9dee-1c16b89fb1f4" class="bulleted-list"><li style="list-style-type:disc">Sequential circuit (output depends on the input value produced from a previous output value)</li></ul><h3 id="0fd2c439-319e-4c3e-9cd5-c5309d298335" class="">SR flip-flops</h3><figure id="8c4b8823-8585-4bcc-93c9-85748a5318dd" class="image"><a href="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled%202.png"><img style="width:708px" src="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled%202.png"/></a></figure><ul id="7c8e1366-4543-461e-bda7-47f94f1ce390" class="bulleted-list"><li style="list-style-type:disc">Consists of two cross-coupled NAND gates</li></ul><ul id="2a123f06-cff0-4213-aed0-91a0495dffb8" class="bulleted-list"><li style="list-style-type:disc">Can be used as a storage/memory device for one bit</li></ul><ul id="01e743ad-d65e-4496-8b8d-ed3015a0b6a3" class="bulleted-list"><li style="list-style-type:disc">A value can be remembered but can also be changed</li></ul><h3 id="054cd093-a8ac-4936-bcd2-6dce362bcdc0" class="">JK flip-flops</h3><figure id="770b3598-a944-4634-9ff7-35a6b4cf3e44" class="image"><a href="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled%203.png"><img style="width:708px" src="Ch%2015%20Hardware%20a3a22245ccff494d9fe6a2a5464b2443/Untitled%203.png"/></a></figure><ul id="8d7ee51e-213d-4121-b136-114b1976d17d" class="bulleted-list"><li style="list-style-type:disc">SR flip-flop problems<ul id="9a62f00c-ca4f-4ba2-92e5-bd2c838867aa" class="bulleted-list"><li style="list-style-type:circle">Invalid S, R conditions need to be avoided</li></ul><ul id="ba203dbe-6274-4592-9bf7-c9dc490ccc5f" class="bulleted-list"><li style="list-style-type:circle">If the inputs do not arrive in time, the flip-flop can become unstable</li></ul></li></ul><ul id="81a151c2-53cf-49b9-b3fb-777b339b7c1d" class="bulleted-list"><li style="list-style-type:disc">Several JK flip-flops can be used to produce shift registers in a computer</li></ul><ul id="e7548ace-ec55-46c5-839d-9b9cb5d4f43b" class="bulleted-list"><li style="list-style-type:disc">A simple binary counter can be made by linking up several JK flip-flop circuits</li></ul><h2 id="9e1d40eb-14b9-40ad-9afb-0220ecbc151c" class="">Boolean algebra and logic circuits</h2><h3 id="3eaceead-41dc-447f-872c-e67ddc4016cc" class="">Karnaugh maps (K-maps)</h3><ul id="90e4c529-066d-4d42-9db7-ef25bfed6b6b" class="bulleted-list"><li style="list-style-type:disc">The values along the top and the bottom follow Gray code rules</li></ul><ul id="c4294f5a-ad2a-429c-91c2-15096a68a35e" class="bulleted-list"><li style="list-style-type:disc">Only cells containing a 1 are taken account of</li></ul><ul id="fa952f68-c24e-4a61-b975-e9904d9e5ca2" class="bulleted-list"><li style="list-style-type:disc">Groups can be a row, a column or a rectangle</li></ul><ul id="1dd392d0-80bb-415f-8441-51b17fb0095b" class="bulleted-list"><li style="list-style-type:disc">Groups must contain 1, 2, 4, 8, or in general 2^n cells</li></ul><ul id="a6681245-8583-4a77-9ddb-8e529970fd6b" class="bulleted-list"><li style="list-style-type:disc">Groups should be as large as possible</li></ul><ul id="5abba42e-d30f-4c1c-8755-b825ed686bcf" class="bulleted-list"><li style="list-style-type:disc">Groups may overlap within the above rules</li></ul><ul id="c416b099-c2a7-4b9a-868f-d4d0ab018f98" class="bulleted-list"><li style="list-style-type:disc">Single values can be regarded as a group even if they cannot be combined with other values to form a larger group</li></ul><ul id="cd8105fb-53c8-4c5b-88c3-4410305f3c18" class="bulleted-list"><li style="list-style-type:disc">The final Boolean expression can only consider those values which remain constant within the group (that is, remain a 1 or 0 throughout the group)</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,684 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ch. 5 System software</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="20836348-6d1e-402d-804f-25cb42fadc43" class="page sans"><header><h1 class="page-title">Ch. 5 System software</h1><p class="page-description"></p></header><div class="page-body"><h1 id="e844137a-522c-4203-b7de-8d1c2a35084c" class="">5.1 Operating systems</h1><h2 id="1e12a83a-01da-4003-987e-5d336c05685e" class="">Why does a computer system requires an OS</h2><ul id="b2873e29-a435-4f8d-b847-037b932c875f" class="bulleted-list"><li style="list-style-type:disc">OS: some software to control the hardware and interact with application software</li></ul><h2 id="036825c4-6271-4321-9ef5-3a8f9c1983c5" class="">Key management tasks carried out by the OS</h2><ul id="21892efc-16c6-474a-9566-73e14fe91903" class="bulleted-list"><li style="list-style-type:disc">User-system interface<ul id="27461b93-0616-44d1-8917-33e05610e5b4" class="bulleted-list"><li style="list-style-type:circle">command-line interface</li></ul><ul id="fbf1f963-f695-44ac-8f1e-c5760af736df" class="bulleted-list"><li style="list-style-type:circle">graphical user interface</li></ul></li></ul><ul id="172fbfae-c8df-40d9-93e4-5c81addc9104" class="bulleted-list"><li style="list-style-type:disc">Program-hardware interface<ul id="22d53fac-48c3-4731-baf6-e5702db45068" class="bulleted-list"><li style="list-style-type:circle">allowing the programmer to write a program without needing to know the details of the hardware</li></ul></li></ul><ul id="912432ba-aaf8-418f-a3bf-4f01e3167fab" class="bulleted-list"><li style="list-style-type:disc">Resource management<ul id="df4ed3a6-3e34-498d-929e-9e1aaa98c683" class="bulleted-list"><li style="list-style-type:circle">process: when a program has started to run</li></ul><ul id="de8234c5-743f-4f29-94f2-9fe846096c07" class="bulleted-list"><li style="list-style-type:circle">scheduling of processes</li></ul><ul id="e342cabc-019b-4b33-b211-8c37bf34e40c" class="bulleted-list"><li style="list-style-type:circle">resolution of conflicts when two processes require the same resource</li></ul></li></ul><ul id="483c001d-bacc-4cd8-89df-b460ee2f9cdd" class="bulleted-list"><li style="list-style-type:disc">Memory management<ul id="ae7360ba-087f-4ff3-90b7-f49f8c2a4b03" class="bulleted-list"><li style="list-style-type:circle">memory protection ensures that one program does not try to use the same memory locations as another program</li></ul><ul id="edf2da3f-6eef-4e32-aa23-195c507178ec" class="bulleted-list"><li style="list-style-type:circle">the memory organisation scheme is chosen to achieve the best usage of limited memory size, for example, virtual memory involving paging or segmentation</li></ul><ul id="ffa920f3-788c-411f-bddf-a75b86e17766" class="bulleted-list"><li style="list-style-type:circle">memory usage optimisation involves decisions about which processes should be in the main memory at any one time and where they are stored in this memory</li></ul></li></ul><ul id="4d9b8268-adb8-4ef6-806d-9905559a3a43" class="bulleted-list"><li style="list-style-type:disc">Device management<ul id="1cf54213-7319-451a-b6b8-9659ccafc063" class="bulleted-list"><li style="list-style-type:circle">installation of the appropriate driver software</li></ul><ul id="0ee47064-2f15-42a4-a6e8-9fac7f6242fc" class="bulleted-list"><li style="list-style-type:circle">control of usage by processes</li></ul></li></ul><ul id="37b58073-e305-416d-ada7-9f43ba830883" class="bulleted-list"><li style="list-style-type:disc">File management<ul id="b7922436-1486-4f0c-aca0-d8733f54dd13" class="bulleted-list"><li style="list-style-type:circle">storage space is divided into file allocation units</li></ul><ul id="4734042f-aa52-40c7-bb74-c9753dfc2c76" class="bulleted-list"><li style="list-style-type:circle">space is allocated to particular files</li></ul><ul id="9b604124-41fa-46ec-86cb-41516f567f7d" class="bulleted-list"><li style="list-style-type:circle">maintains/creates directory structures</li></ul><ul id="6e45fff5-cdd2-44a3-925a-1d3615c188f3" class="bulleted-list"><li style="list-style-type:circle">specifies the logical method of file storage</li></ul><ul id="682aaecf-0ee8-44f8-b706-3494f874cbed" class="bulleted-list"><li style="list-style-type:circle">provides file naming conventions</li></ul><ul id="2e522427-4b65-4149-b0b1-ccce92e65fcb" class="bulleted-list"><li style="list-style-type:circle">implements access rights</li></ul><ul id="a201b62e-2276-449a-b470-970ccc04f1f5" class="bulleted-list"><li style="list-style-type:circle">specifies tasks that can be performed on a file</li></ul></li></ul><ul id="8ada6232-d772-400a-ae54-df88931dba10" class="bulleted-list"><li style="list-style-type:disc">Security management<ul id="e06b612c-dddc-4d06-b670-82c8cf245b9f" class="bulleted-list"><li style="list-style-type:circle">provision for recovery when data is lost</li></ul><ul id="62e57c7e-b635-4bbe-b082-694272f79859" class="bulleted-list"><li style="list-style-type:circle">prevention of intrusion</li></ul><ul id="d483021b-6bb4-4969-94ce-e50e8a5fd596" class="bulleted-list"><li style="list-style-type:circle">ensuring data privacy</li></ul></li></ul><ul id="87036923-b2c7-4598-985f-ee9e92f384dc" class="bulleted-list"><li style="list-style-type:disc">Error detection and recovery<ul id="3c5b0ce9-e77e-441d-8361-4b6e357a8052" class="bulleted-list"><li style="list-style-type:circle">capability to interrupt a running process and provide error diagnostics</li></ul></li></ul><ul id="35c7a6ea-b385-4fa6-b631-296e33be44c9" class="toggle"><li><details open=""><summary>Archive points (from trash textbook)</summary><ul id="41f12d63-ed7b-4008-b060-dacd34c3cbb2" class="bulleted-list"><li style="list-style-type:disc"><del>Memory management</del><ul id="b9cf86b2-3f28-487a-a943-b42ba1ad48df" class="bulleted-list"><li style="list-style-type:circle"><del>Memory optimisation</del><ul id="3883062e-7867-4f51-b669-8f7ea2ad9ad6" class="bulleted-list"><li style="list-style-type:square"><del>determines how computer memory is allocated</del></li></ul><ul id="af287180-2adf-45e7-b8aa-4558db55b740" class="bulleted-list"><li style="list-style-type:square"><del>determines where they are stored in memory</del></li></ul></li></ul><ul id="b0ddccfa-c4e5-4d1a-b1c0-b84faad383ed" class="bulleted-list"><li style="list-style-type:circle"><del>Memory organisation</del><ul id="349b4ddc-e85d-43a6-8e59-93c50f57245a" class="bulleted-list"><li style="list-style-type:square"><del>determines how much memory is allocated to an application</del></li></ul><ul id="739775e9-c657-4de2-a7d7-794e2d3739f7" class="bulleted-list"><li style="list-style-type:square"><del>how the memory can be split up in the most efficient manner</del></li></ul><ul id="f6f68699-ad0b-403e-ade8-6bbc0147ff7b" class="bulleted-list"><li style="list-style-type:square"><del>by use of paged memory, virtual memory systems</del></li></ul></li></ul><ul id="5847099f-c5af-4bd3-bf64-683965f376cc" class="bulleted-list"><li style="list-style-type:circle"><del>Memory protection</del><ul id="40b813bf-e409-4080-a779-95cd20986da0" class="bulleted-list"><li style="list-style-type:square"><del>ensures that two competing applications cannot use the same memory locations</del></li></ul></li></ul></li></ul><ul id="7498099f-5bf3-423e-9c36-28034638eae8" class="bulleted-list"><li style="list-style-type:disc"><del>Security management</del><ul id="3e7bd3c8-7072-4e3d-b7ae-79511f4c89da" class="bulleted-list"><li style="list-style-type:circle"><del>ensure the integrity, confidentiality and availability of data, e.g.</del><ul id="506a8099-130c-4d64-a5b3-3d1f38aee61a" class="bulleted-list"><li style="list-style-type:square"><del>carrying OS updates when they are available</del></li></ul><ul id="12650fc3-572c-4dd5-8698-16e70d931d17" class="bulleted-list"><li style="list-style-type:square"><del>ensuring that antivirus software is always up-to-date</del></li></ul><ul id="1cb7c0a7-a938-4a28-b1bf-192cb9f30ff9" class="bulleted-list"><li style="list-style-type:square"><del>communicating with firewall to check traffic to and from the computer</del></li></ul><ul id="93687899-976b-4da9-94a6-f0d814077fdc" class="bulleted-list"><li style="list-style-type:square"><del>prevent users entering “private areas” on a computer that permits multi-user activity</del></li></ul><ul id="be3335ef-51a7-479d-afb4-6c1e7553e066" class="bulleted-list"><li style="list-style-type:square"><del>maintaining access rights for all users</del></li></ul><ul id="0585a390-a416-4a3e-bb93-32515f5a3649" class="bulleted-list"><li style="list-style-type:square"><del>offering the ability for the recovery of data when it has been lost or corrupted</del></li></ul><ul id="14d13146-1196-4889-8605-30075cf7df2e" class="bulleted-list"><li style="list-style-type:square"><del>prevent illegal intrusion to the computer system</del></li></ul></li></ul></li></ul><ul id="7c499b9a-03df-4d2d-8ab6-68f92e97c144" class="bulleted-list"><li style="list-style-type:disc"><del>Process management</del><ul id="a0c30256-89e1-44b3-9910-e23ba723951e" class="bulleted-list"><li style="list-style-type:circle"><del>allocation of resources and permits the sharing and exchange of data, allowing all processes to be fully synchronised</del></li></ul></li></ul><ul id="f28915e0-4ac5-4f11-9f2a-f5ff3e3de281" class="bulleted-list"><li style="list-style-type:disc"><del>Hardware management</del><ul id="8020ae93-0676-43f0-aff3-9b35d60cfa0a" class="bulleted-list"><li style="list-style-type:circle"><del>involves all input and output devices</del><ul id="a4ac6040-d5f6-4e92-9648-2824fc656fe7" class="bulleted-list"><li style="list-style-type:square"><del>communicating with all input and output devices using device drivers</del></li></ul><ul id="f6ee5c0e-43bb-4ab2-bbe5-332bcdb3196c" class="bulleted-list"><li style="list-style-type:square"><del>translating data from a file into a format the input/output device can understand using device drivers</del></li></ul><ul id="17004e54-65a8-4c1b-a0ca-852a11086025" class="bulleted-list"><li style="list-style-type:square"><del>ensuring each hardware resource has a priority so that it can be used and released as required</del></li></ul></li></ul></li></ul><ul id="f439d4f6-8255-4eba-ae7c-e9e32dcc4dac" class="bulleted-list"><li style="list-style-type:disc"><del>File management</del><ul id="c180237d-b341-43a7-b3a6-44d8e1230bb1" class="bulleted-list"><li style="list-style-type:circle"><del>defining the file naming conventions which can be used</del></li></ul><ul id="f8f1b137-ec68-4c4f-adab-cbcf0e5d7e9a" class="bulleted-list"><li style="list-style-type:circle"><del>performing specific tasks, such as copy, paste…</del></li></ul><ul id="c560ee0f-b69b-471d-b350-fa5cd103c544" class="bulleted-list"><li style="list-style-type:circle"><del>maintaining directory structures</del></li></ul><ul id="99b9b489-da0a-4a55-a265-09fc89ffecec" class="bulleted-list"><li style="list-style-type:circle"><del>ensuring access control mechanisms are maintained, such as access rights to files</del></li></ul><ul id="5ab522e6-badc-4ec4-9482-77696a9d5792" class="bulleted-list"><li style="list-style-type:circle"><del>specifying the logical file storage format, depending on which type of disk formatter is used</del></li></ul><ul id="86fc0f56-350e-4ce0-a089-cf7be8de036f" class="bulleted-list"><li style="list-style-type:circle"><del>ensuring memory allocation for a file by reading it from the HDD/SDD and loading it into memory</del></li></ul></li></ul></details></li></ul><p id="ea7bbfa2-11c2-4224-950f-fd2b77ac0a3b" class="">Need for typical utility software provided by the OS, including disk formatter, virus checker, defragmentation software, disk content analysis/disk repair software, file compression, back-up software</p><ul id="3255d94a-de13-45d6-9e7a-b1b173b7fcc0" class="bulleted-list"><li style="list-style-type:disc">Hard disk formatter and checker<ul id="6f0f441c-d594-4f16-923d-d8f8f43fbab8" class="bulleted-list"><li style="list-style-type:circle">removes existing data from a disk that has been used previously</li></ul><ul id="da13c708-5a78-4210-846e-9c64af139ab3" class="bulleted-list"><li style="list-style-type:circle">setting up the file system on the disk, based on a table of contents that allows a file recognised by the operating system to be associated with a specific physical part of the disk</li></ul><ul id="092cbc23-2483-46a7-abfe-901a87ec601f" class="bulleted-list"><li style="list-style-type:circle">partitioning the disk into logical drives (when needed)</li></ul></li></ul><ul id="534ace69-ea00-432e-8068-6182d43138ce" class="bulleted-list"><li style="list-style-type:disc">Hard disk defragmenter<ul id="54caf7dd-4311-41b5-9323-b6ff7cb9ca6e" class="bulleted-list"><li style="list-style-type:circle">a disk will gradually become less efficient because of the constant creation, editing and deletion of files, leaving them in a fragmented state</li></ul><ul id="8d905da1-3717-4a0f-9349-4c4d838affd5" class="bulleted-list"><li style="list-style-type:circle">reorganises the file storage to return it to a state where all files are stored in one block across a sequence of sectors</li></ul><ul id="ad502bd6-a055-4983-bf47-721356a28307" class="bulleted-list"><li style="list-style-type:circle">less time is taken to open a file because each one is contiguous</li></ul></li></ul><ul id="e1d63c7d-cdb1-4b99-a16d-bd18d83d62ef" class="bulleted-list"><li style="list-style-type:disc">Disk clean up<ul id="5a8abbcf-d266-41c2-b3c6-4c914ad94cc5" class="bulleted-list"><li style="list-style-type:circle">releases storage by removing unwanted/temporary files</li></ul></li></ul><ul id="0926c24b-1263-4e51-b127-d7a597853b38" class="bulleted-list"><li style="list-style-type:disc">Backup software<ul id="c331cae3-0770-451d-8e62-59b20964200e" class="bulleted-list"><li style="list-style-type:circle">establish a schedule for backups</li></ul><ul id="2fe241d4-5cc9-49ac-bbe1-85c6a5af8477" class="bulleted-list"><li style="list-style-type:circle">only create a new backup file when there has been a change</li></ul></li></ul><ul id="119bde95-b9a8-413b-b10f-fe91f789c22d" class="bulleted-list"><li style="list-style-type:disc">Virus checker<ul id="a263d631-9b34-4762-ac02-2edd06041ed1" class="bulleted-list"><li style="list-style-type:circle">makes more RAM available for programs to run</li></ul></li></ul><ul id="83a6fda3-3da7-4975-89e1-d8ccd51c814a" class="bulleted-list"><li style="list-style-type:disc">File compression</li></ul><p id="2e09d475-3e63-494e-ba10-238c6d67d7d9" class="">Understanding for program libraries, including software under development is often constructed using existing code from program libraries, and the benefits to the developer of software constructed using library files, including Dynamic Link Library (DLL) files</p><ul id="5c410b4e-7b57-43b5-9c6f-b4c485db71a0" class="bulleted-list"><li style="list-style-type:disc">“programs” in program libraries are usually subroutines created to carry out particular tasks</li></ul><ul id="4b62c58b-70df-4222-a382-39a5e95a1819" class="bulleted-list"><li style="list-style-type:disc">a programmer can use these within their own programs</li></ul><ul id="d1ecf2cc-ad45-4029-a2ef-56033628557b" class="bulleted-list"><li style="list-style-type:disc">advantage: saves a lot of time and trouble for the programmer because subroutines from a program library are tried and tested</li></ul><ul id="142fc862-9467-497f-8caf-6656877a6a24" class="bulleted-list"><li style="list-style-type:disc">disadvantage: every program using a routine has to have its own copy of the library routine, which increases the storage space requirement</li></ul><ul id="5582ff90-aeef-4edb-8f24-8aadbfa2250f" class="bulleted-list"><li style="list-style-type:disc">alternative: dynamic linked library (DLL)<ul id="01acc394-4603-442e-8b87-c0fef1f9a725" class="bulleted-list"><li style="list-style-type:circle">when a DLL routine is available, the executable code just requires a small piece of code to be included</li></ul><ul id="ab4c4234-d83c-47c9-b7dc-86539b06a40e" class="bulleted-list"><li style="list-style-type:circle">this allows it to link to the routine, which is stored separately in memory, when execution of the program needs it</li></ul><ul id="d4d0fd78-4fb8-4dca-a56b-495270c4816b" class="bulleted-list"><li style="list-style-type:circle">many processes can be linked to the same routine</li></ul><ul id="768caf21-d8ea-4bef-9f90-1aab1470f218" class="bulleted-list"><li style="list-style-type:circle">advantage: all programs need less storage space, memory requirement is minimised; when a new version of the routine becomes available it can be loaded into memory so any program using it is automatically upgraded</li></ul><ul id="9e41e006-40a2-4f97-a7de-fc78e62e79e5" class="bulleted-list"><li style="list-style-type:circle">disadvantage: program is relying on the routine being available AND performing the expected function, so if DLL becomes corrupted the program will fail</li></ul></li></ul><h1 id="2402879d-5322-4224-b157-ac7c08179884" class="">5.2 Language translators</h1><p id="c20df7c7-9600-4564-bccc-490b99c5a22e" class="">Need for assembler software for the translation of an assembly language program, <strong>compiler </strong>for the <strong>translation </strong>of a high-level language program, an <strong>interpreter </strong>for <strong>translation and execution</strong> of a high-level language program</p><ul id="b7d443b6-cf7a-4a1b-b05b-715289374bb6" class="bulleted-list"><li style="list-style-type:disc">Interpreter<ol type="1" id="a7872a5a-6237-4c25-bb2b-c0b1ef2c0e7b" class="numbered-list" start="1"><li>interpreter program, source code file and the data to be used by the source code program are all made available</li></ol><ol type="1" id="cf899580-27d6-4b2b-9c0b-fa1cc2e6438d" class="numbered-list" start="2"><li>interpreter program begins execution</li></ol><ol type="1" id="e5db251b-ecc4-427b-95f0-7ff24a65f65e" class="numbered-list" start="3"><li>first line of source code is read</li></ol><ol type="1" id="9a8fa134-99c8-40e8-be4b-acc80c1161d1" class="numbered-list" start="4"><li>line is analysed</li></ol><ol type="1" id="80720742-f4c5-423e-975a-0863276efd45" class="numbered-list" start="5"><li>if an error is found, this is reported and the interpreter program halts execution</li></ol><ol type="1" id="e339b976-cbb2-4ab5-83e3-a20b466f3213" class="numbered-list" start="6"><li>if no error is found, the line of source code is converted to an intermediate code</li></ol><ol type="1" id="93afb72e-297a-4ee4-bcfe-f0a1d1b0d16b" class="numbered-list" start="7"><li>the interpreter program uses this intermediate code to execute the required action</li></ol><ol type="1" id="b3b99ec4-0d26-47e9-988d-025f0b09965f" class="numbered-list" start="8"><li>next line of source code is read, steps 4-8 are repeated</li></ol></li></ul><ul id="5c1ff5e8-4160-45e2-9840-e0fb59ae3d7e" class="bulleted-list"><li style="list-style-type:disc">Compiler<ol type="1" id="cc83272f-8a10-4db0-9b94-8932ed4a7839" class="numbered-list" start="1"><li>compiler program and source code file are made available but no data is needed</li></ol><ol type="1" id="2165af40-6579-4762-9ea5-b06f3f6e645e" class="numbered-list" start="2"><li>compiler program begins execution</li></ol><ol type="1" id="8182f835-a0e0-4209-b10b-63ee1a9bacab" class="numbered-list" start="3"><li>first line of source code is read</li></ol><ol type="1" id="dfe5c8fc-7c81-4adb-961d-87496d3d0e2f" class="numbered-list" start="4"><li>line is analysed</li></ol><ol type="1" id="20335f1e-b89c-47fa-aa8d-9f0e2a4967b4" class="numbered-list" start="5"><li>if an error is found this is recorded</li></ol><ol type="1" id="966c4d3d-4eee-4c74-92db-08e2cb72f603" class="numbered-list" start="6"><li>if no error is found, the line of source code is converted to an intermediate code</li></ol><ol type="1" id="a76726f6-2426-456b-af89-2111b452278e" class="numbered-list" start="7"><li>next line of source code is read and steps 4-7 are repeated</li></ol><ol type="1" id="3f1409d1-537a-4fad-8695-23c9e4f2b9d7" class="numbered-list" start="8"><li>when the whole of the source code been dealt with:<ol type="a" id="3a7a5443-32d6-4815-8642-b8b8f4cc1fae" class="numbered-list" start="1"><li>if no error is found the whole source code is converted into <strong>object code</strong></li></ol><ol type="a" id="cb387292-24ab-4ee8-8aff-8feb9368c4f1" class="numbered-list" start="2"><li>if any errors are found, a list of these is output and no object code is produced</li></ol></li></ol></li></ul><p id="73ab9992-d61d-448f-bc26-7d2e001b2713" class="">Benefits and drawbacks of using either a compiler or interpreter and justify the use of each</p><ul id="56bf5ed5-8dd8-41b0-ad40-fc104643e05c" class="bulleted-list"><li style="list-style-type:disc">The advantages and disadvantages to a programmer of creating interpreted or compiler programs<table id="223533e2-a307-40c2-a583-522b772e10e2" class="simple-table"><thead class="simple-table-header"><tr id="853639a9-29ed-4504-b8a1-8d36060c7001"><th id="ZYFz" class="simple-table-header-color simple-table-header">Interpreter</th><th id="o@K[" class="simple-table-header-color simple-table-header">Compiler</th></tr></thead><tbody><tr id="273ee7c4-c03f-43c8-ab9f-86cfb8ebd4b3"><td id="ZYFz" class=""><mark class="highlight-teal_background">errors can be identified as they occur and corrected immediately</mark></td><td id="o@K[" class=""></td></tr><tr id="1e3326e6-73f1-4610-869a-2730b8e45593"><td id="ZYFz" class=""><mark class="highlight-red_background">during a particular execution of the program, parts of the code which contain syntax errors may not be accessed so if errors are still present, they are not discovered until later</mark></td><td id="o@K[" class=""></td></tr><tr id="277cee7a-dcfb-4f53-867a-698b0a7bfed1"><td id="ZYFz" class=""><mark class="highlight-red_background">when a program is error free and is distributed to users because the source code has to be sent to each user</mark></td><td id="o@K[" class=""><mark class="highlight-teal_background">an executable file can be distributed to users, so the users have no access to the source code</mark></td></tr></tbody></table></li></ul><ul id="2171fc66-8b76-45f9-aec5-3e5d4f86ce0d" class="bulleted-list"><li style="list-style-type:disc">The advantages and disadvantages to the user of interpreted or compiled programs<table id="bcab2d39-25db-43f6-a298-343da69ea476" class="simple-table"><tbody><tr id="d48f8468-2dee-423a-b2bf-b7d18aba06a6"><td id="}|IX" class="">Interpreter</td><td id="xb}\" class="">Compiler</td></tr><tr id="38e5ceb5-dc10-46d9-af5f-c1b75ab87763"><td id="}|IX" class=""><mark class="highlight-red_background">the interpreter and the source code have to be available</mark></td><td id="xb}\" class=""><mark class="highlight-teal_background">only the object code has to be available</mark></td></tr><tr id="ab775321-c906-4ee3-90b8-4dc6c4d8b150"><td id="}|IX" class=""></td><td id="xb}\" class=""><mark class="highlight-teal_background">faster execution</mark></td></tr><tr id="b40a4c01-ae2b-434d-bf9e-a4ba61c5ef68"><td id="}|IX" class=""></td><td id="xb}\" class=""><mark class="highlight-red_background">less secure as it could contain a virus</mark></td></tr></tbody></table></li></ul><p id="85904c95-5091-4e0e-91d8-c9026f7536a2" class="">The use of an interpreter is justified when:</p><ul id="c9bce0f5-3c05-4a76-aa04-b6f796aae259" class="bulleted-list"><li style="list-style-type:disc">one error in a program can lead to several other errors occurring</li></ul><ul id="bd2e2132-1ecb-406e-850e-dddbd8285253" class="bulleted-list"><li style="list-style-type:disc">an interpreter can detect and correct an early error so limited subsequent ones</li></ul><ul id="e90d7213-5f1c-4c18-8641-3e4c8908e07b" class="bulleted-list"><li style="list-style-type:disc">the debugging facilities provided in association with the interpreter speed this process</li></ul><p id="a3e8578d-37f3-4071-b0ab-99613c85f122" class="">The use of a compiler is justified when:</p><ul id="5a9b4f27-37df-4dc1-a23f-fea4bd4f8da9" class="bulleted-list"><li style="list-style-type:disc">an executable file can be created</li></ul><ul id="47fc58e6-5880-4d36-8041-109babe8c3b2" class="bulleted-list"><li style="list-style-type:disc">this can be distributed for general use</li></ul><ul id="3a0b2d9e-f972-45e2-9faa-69c8f06a3078" class="bulleted-list"><li style="list-style-type:disc">execution of the program will be faster than if an interpreter were used</li></ul><p id="4e0539af-e01b-4ff0-bea3-082705fc591b" class="">High-level language programs may be partially compiled and partially interpreted, such as Java (console mode)</p><p id="cc59c695-0865-401b-ba52-1c092191ae80" class="">Describe features found in a typical Integrated Development Environment (IDE)</p><ul id="de647934-c961-4ed3-b0aa-9c77d860d132" class="bulleted-list"><li style="list-style-type:disc">for coding, including context-sensitive prompts</li></ul><ul id="f2a01a31-4787-41f0-9f89-1340e75e79ef" class="bulleted-list"><li style="list-style-type:disc">for initial error detection, including dynamic syntax checks</li></ul><ul id="ae4c25f4-78cc-4cc5-85cb-e2a794705c36" class="bulleted-list"><li style="list-style-type:disc">for presentation, including prettyprint, expand and collapse code blocks</li></ul><ul id="40851420-7a12-443f-b9d8-aa0fa9ccde31" class="bulleted-list"><li style="list-style-type:disc">for debugging, including single stepping, breakpoints, report window</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

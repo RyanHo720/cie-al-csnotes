@@ -1,0 +1,684 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ch. 2 Communication</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6e1c83aa-c357-4d7b-8e4a-6d93d9febbe1" class="page sans"><header><h1 class="page-title">Ch. 2 Communication</h1><p class="page-description"></p></header><div class="page-body"><h1 id="873b040f-3d7b-4d25-b7f8-412cc88afc19" class="">2.1 Benefits of networking</h1><p id="abcfb824-55fc-463b-8c4c-3b06e6dad6ad" class="">Benefits of networking</p><ul id="8075cd24-2509-493c-a6c0-430014f44553" class="bulleted-list"><li style="list-style-type:disc">Certain hardware can be shared by many computers, such as a printer</li></ul><ul id="530ce565-c2a9-4c85-86d4-069d8a3ef6aa" class="bulleted-list"><li style="list-style-type:disc">Specialist applications such as email</li></ul><ul id="7f87a011-ef51-4b63-8132-49bba38483c6" class="bulleted-list"><li style="list-style-type:disc">Access to an intranet to all employees of a company</li></ul><p id="ac51d5e9-1a65-4911-91be-e97e71bdfa4f" class="">LAN (Local Area Network)</p><ul id="95c99f95-2ff4-4ae6-b3da-803a3455c87a" class="bulleted-list"><li style="list-style-type:disc">Private network</li></ul><ul id="995b159e-3c46-4155-8800-a4ad5bbb3216" class="bulleted-list"><li style="list-style-type:disc">Appropriate for a home computer system or for a small enterprise business</li></ul><ul id="6c3bb8a5-44f7-482f-9abd-979456c9aaf6" class="bulleted-list"><li style="list-style-type:disc">Geography will range from a single room to a single site</li></ul><ul id="5dd10b31-ff28-4dac-a0b7-a48bc40ecf93" class="bulleted-list"><li style="list-style-type:disc">LAN is scalable: more computers can be connected to the LAN</li></ul><p id="695e464a-a8e3-45b7-89e0-a136a67dbc4f" class="">WAN (Wide Area Network)</p><ul id="a4ad2536-4de8-4986-bb30-89bb24aca571" class="bulleted-list"><li style="list-style-type:disc">Wider geographical area, e.g. within a town</li></ul><ul id="e69d254e-d548-4720-96ce-ad52b5cfaa61" class="bulleted-list"><li style="list-style-type:disc">Can be connected through public telephone network or satellite communications</li></ul><ul id="0996837d-7a6b-40fc-b1b6-ec6ee85a9289" class="bulleted-list"><li style="list-style-type:disc">Example: the Internet</li></ul><p id="94cff8cb-94e6-4ef6-99bd-cd3b3da09b41" class="">Client server model</p><ul id="63083cc1-f60e-416a-adfb-bd96c60cf407" class="bulleted-list"><li style="list-style-type:disc">A client computer application will access various resources and services provided by a server</li></ul><ol type="1" id="f388e1c4-76c3-4ff0-b23c-4af5ba4a4058" class="numbered-list" start="1"><li>The client software makes a request to the appropriate server</li></ol><ol type="1" id="7dbdb2b6-cbc7-48aa-8f28-117e6187b25e" class="numbered-list" start="2"><li>The processing of the request is carried out on the server</li></ol><ol type="1" id="2f8d84a5-208e-4b6e-ad4c-0b12d296ed2b" class="numbered-list" start="3"><li>Results of the request are sent back to the client server</li></ol><ul id="8b90487a-305d-4376-b2be-32cb2f3ab190" class="bulleted-list"><li style="list-style-type:disc">Common applications:<ul id="23730e40-a6e2-41dd-af0c-e529a80e3590" class="bulleted-list"><li style="list-style-type:circle">File server</li></ul><ul id="adbcce03-0567-497a-89f5-f2aff2b09f46" class="bulleted-list"><li style="list-style-type:circle">Email server</li></ul><ul id="b6666268-be06-48bd-ad03-4e94e29415a9" class="bulleted-list"><li style="list-style-type:circle">Print server</li></ul><ul id="322b47f9-0656-4fa7-8063-124aa43eae3c" class="bulleted-list"><li style="list-style-type:circle">Database server</li></ul><ul id="2ae4f696-ad0c-407d-843c-68311ec40425" class="bulleted-list"><li style="list-style-type:circle">Web server</li></ul></li></ul><ul id="ae732996-e3f6-4166-9789-23f66968892f" class="bulleted-list"><li style="list-style-type:disc">Benefits:<ul id="4ce1916c-4ba9-44c6-ac4a-22da2dab27d6" class="bulleted-list"><li style="list-style-type:circle">Different servers can provide for a wide range of services</li></ul><ul id="8725354c-f442-4660-bb81-392334949a7d" class="bulleted-list"><li style="list-style-type:circle">Provides for the central storage for all files and documents</li></ul><ul id="4d6f7775-6f1a-4fa7-99cc-c4d7a73ddf56" class="bulleted-list"><li style="list-style-type:circle">Security, including the administration of user accounts, is centralised</li></ul></li></ul><ul id="1dcd5554-1a84-4d79-a5fb-a915fb8c776a" class="bulleted-list"><li style="list-style-type:disc">Drawbacks:<ul id="60e8fa28-94f2-41f2-8e82-07d4102df244" class="bulleted-list"><li style="list-style-type:circle">Initial set-up costs will be high</li></ul><ul id="ad25c2fb-7ed1-4f9f-bb64-f16f520ef51d" class="bulleted-list"><li style="list-style-type:circle">Requires a specialist network operating system</li></ul><ul id="2b0a4acf-ec38-45eb-af41-eabbdcd05cbe" class="bulleted-list"><li style="list-style-type:circle">If the server fails, all users are affected</li></ul></li></ul><p id="0f8f7e16-f58b-469c-a92b-d3abdd8a9fae" class="">Peer-to-peer networking</p><ul id="85cddab8-8b8b-4a0d-bcf0-5f4a48d756e2" class="bulleted-list"><li style="list-style-type:disc">No central server, computers are able to act both as a receiver and a sender</li></ul><ul id="a810b50a-d7af-451a-b9a0-09cef877499d" class="bulleted-list"><li style="list-style-type:disc">A peer-to-peer network operates with each peer storing some of the files</li></ul><ul id="d69e803c-01c3-4c2f-8bdb-dbf4bbad8e34" class="bulleted-list"><li style="list-style-type:disc">Each peer can request or provide files</li></ul><ul id="6d57d511-a219-491b-9dca-b6b13cb38b5d" class="bulleted-list"><li style="list-style-type:disc">Benefits<ul id="a867dbbc-c5c5-48d7-b854-c191e3ba44af" class="bulleted-list"><li style="list-style-type:circle">No dedicated server required</li></ul><ul id="9fa95969-db59-4287-8dca-9ee6a2695650" class="bulleted-list"><li style="list-style-type:circle">Additional computers can join easily</li></ul><ul id="6929670a-3868-4229-8bde-b13e994c7a08" class="bulleted-list"><li style="list-style-type:circle">Each computer can act as both a provider and receiver of resources</li></ul></li></ul><ul id="70a43b51-61dd-4ba6-afb1-886223db2e90" class="bulleted-list"><li style="list-style-type:disc">Drawbacks<ul id="aeb6e4c8-7085-48ed-bbf2-09b861fb06e7" class="bulleted-list"><li style="list-style-type:circle">The system is “de-centralised” and it will be difficult to administer</li></ul><ul id="0d9ee8ab-d850-4021-97dc-6f27ef4ac8d3" class="bulleted-list"><li style="list-style-type:circle">Less control over the identification of malware from other computers in the network</li></ul></li></ul><p id="6a51e528-bac4-42f5-8362-7f10417d72e8" class="">Thin-client computing</p><ul id="e380ac11-13e6-4ac4-94d7-264c7b27f04e" class="bulleted-list"><li style="list-style-type:disc">Client provides the server with input, the server does the processing, and the client receives and displays the final output</li></ul><p id="8ef21f97-74de-409c-9f15-f4b06b0f4dcd" class="">Thick-client computing</p><ul id="91ba9283-1bf9-41c4-bfa9-db7145f36fde" class="bulleted-list"><li style="list-style-type:disc">Client does most of the processing, only accesses the server for data needed by the application</li></ul><h1 id="9b5d4e05-7a94-40f4-b3ba-16c11575accb" class="">2.2 Network topologies</h1><ul id="106641ff-3277-4a78-b406-3d0ae9824a48" class="bulleted-list"><li style="list-style-type:disc">Bus topology<ul id="09dacf2a-88e3-4f6d-bb08-f5cfb72e4ab9" class="bulleted-list"><li style="list-style-type:circle">Single cable connects several computers, with each device as a node</li></ul><ul id="d27ea8da-5456-4986-87ad-9de9cc9bd183" class="bulleted-list"><li style="list-style-type:circle">One of the node failing will not affect the performance of the network</li></ul></li></ul><ul id="67a01e64-d2de-4ab2-bc7c-730010c94205" class="bulleted-list"><li style="list-style-type:disc">Star topology<ul id="923b8117-76d4-4740-8c14-c8da60b0723c" class="bulleted-list"><li style="list-style-type:circle">Each node has a point-to-point connection to the central device</li></ul><ul id="42dbdf82-8d07-4baf-a2dc-2eaca4332151" class="bulleted-list"><li style="list-style-type:circle">One of the node failing will not affect the performance of the network</li></ul><ul id="ec4d9f4d-345c-4051-8c84-77745bf48bdb" class="bulleted-list"><li style="list-style-type:circle">Central device must be operational</li></ul></li></ul><ul id="ebb7575e-6b4c-406f-bda6-20602f6472a4" class="bulleted-list"><li style="list-style-type:disc">Mesh topology<ul id="5d50b0bc-3f3e-47f0-8b1f-1dc4e96c6ef5" class="bulleted-list"><li style="list-style-type:circle">Every node has a dedicated point-to-point connection to every other node</li></ul></li></ul><ul id="683d8a2c-053c-45ae-8189-e43de10afd41" class="bulleted-list"><li style="list-style-type:disc">Hybrid topology<ul id="ff1c28aa-3f51-41aa-9c91-5376beddd1f1" class="bulleted-list"><li style="list-style-type:circle">Mix of different topologies</li></ul></li></ul><h1 id="75467b95-fe1a-4e33-9a35-b9ec95bf05e4" class="">2.3 Cloud computing</h1><ul id="5ff66014-94ba-47e1-88b8-5afa4ad12f71" class="bulleted-list"><li style="list-style-type:disc">Based on the principle of a central shared resource</li></ul><ul id="cda2abdf-cb90-4e10-84b7-d0a5ebfd1755" class="bulleted-list"><li style="list-style-type:disc">Public cloud<ul id="9a649045-9889-4669-a3b5-a8f8b5639e28" class="bulleted-list"><li style="list-style-type:circle">Openly available and likely free</li></ul><ul id="ac6523b4-4672-4ada-9bdd-9a6fd5e7c0a9" class="bulleted-list"><li style="list-style-type:circle">E.g. Gmail</li></ul></li></ul><ul id="2a5078e9-f0cf-4402-91b2-e504326e69ba" class="bulleted-list"><li style="list-style-type:disc">Private cloud<ul id="869a53b6-53b9-42d7-afb6-12c8ff9cf4b4" class="bulleted-list"><li style="list-style-type:circle">Usually paid-for</li></ul><ul id="efacffca-c859-4b31-ba6c-4c45eca02fb9" class="bulleted-list"><li style="list-style-type:circle">E.g. Apple Music</li></ul></li></ul><ul id="3f5334f9-1e4d-44e4-8c4d-556a2b5d8719" class="bulleted-list"><li style="list-style-type:disc">Benefits<ul id="c6de12f1-54e1-45ae-977c-55594a79afc0" class="bulleted-list"><li style="list-style-type:circle">Cost effective</li></ul><ul id="83c831cd-0c0c-4df3-87bd-3bde27ee473d" class="bulleted-list"><li style="list-style-type:circle">Capital expenditure on both hardware software can be avoided</li></ul><ul id="5e5b3df9-5553-42fb-bfc0-f915db4f9eec" class="bulleted-list"><li style="list-style-type:circle">Flexibility of access</li></ul><ul id="9ed4668b-5ec6-4daf-9652-22661f8be1b2" class="bulleted-list"><li style="list-style-type:circle">Improved centralised security of data</li></ul></li></ul><ul id="f75b8937-42d7-4341-ba1a-a2e191bbc5f4" class="bulleted-list"><li style="list-style-type:disc">Drawbacks<ul id="0b01a5f6-8a4e-4a5a-93b9-63eafc8c8e22" class="bulleted-list"><li style="list-style-type:circle">Cloud provider has to be reliable to handle sensitive data</li></ul></li></ul><h1 id="662eaa27-26db-4e6d-8c71-438818371af9" class="">2.4 Wired and wireless networks</h1><ul id="30dec272-84b2-466a-b18d-bd97f7951022" class="bulleted-list"><li style="list-style-type:disc">Wireless networks are networks without wires, the communication medium must be through electromagnetic waves, e.g. radio waves</li></ul><ul id="54ec5126-b32e-4d99-89a1-f3a465c39b31" class="bulleted-list"><li style="list-style-type:disc">Issues: wireless waves cannot penetrate thick walls</li></ul><p id="5f0b091f-5237-414f-a1dd-77ff9981837b" class="">Copper cable</p><ul id="87eb1200-cb64-4f73-a741-20b952aeb31f" class="bulleted-list"><li style="list-style-type:disc">Twisted-pair<ul id="e82ddf1d-1062-455e-9cd5-c735d082ea69" class="bulleted-list"><li style="list-style-type:circle">A pair of copper cables twisted together to cancel out electromagnetic interference</li></ul></li></ul><ul id="08860261-d4d9-4485-b07e-d74bd229c404" class="bulleted-list"><li style="list-style-type:disc">Coaxial<ul id="80b2fcb0-c949-4ba1-bfdd-9767c9bd1de4" class="bulleted-list"><li style="list-style-type:circle">Central single strand wire that is insulated from the outer multi-strand wire mesh braided around the central insulation</li></ul><ul id="b097f659-5a54-48a1-a2cc-4d97a281fe9c" class="bulleted-list"><li style="list-style-type:circle">E.g. Ethernet</li></ul></li></ul><ul id="c1b0c37c-4e46-4598-8d6c-2eff3140a2b8" class="bulleted-list"><li style="list-style-type:disc">Pro of Coaxial: electromagnetic interference from other metal objects in close proximity is unlikely to affect the signals</li></ul><ul id="f20a3d81-0c13-4b1a-92b9-f16e5ffc8ec8" class="bulleted-list"><li style="list-style-type:disc">Bus network uses either of those cables</li></ul><p id="1db276ac-c7c7-41df-a615-4e45aaf27f88" class="">Fibre-optic cable</p><ul id="2177ef39-0f35-4308-9f1f-8037a4a23eb2" class="bulleted-list"><li style="list-style-type:disc">Data is free from any interference</li></ul><ul id="a1cccb54-b461-48d3-b3f0-331eb5c5dd68" class="bulleted-list"><li style="list-style-type:disc">Will not suffer from loss of strength</li></ul><ul id="edb087ef-3d06-43c4-a955-0692ac49dc97" class="bulleted-list"><li style="list-style-type:disc">Cabling does not suffer from corrosion</li></ul><ul id="41c14006-14ba-4a06-8e44-cf4cc89732aa" class="bulleted-list"><li style="list-style-type:disc">Data travels at light speed</li></ul><h1 id="100e880e-9cd7-47c1-8322-d3fef396fab8" class="">2.5 Hardware to support a LAN</h1><ul id="433c3344-9e81-4e10-ab81-99bd0f80834f" class="bulleted-list"><li style="list-style-type:disc">Switch<ul id="90ca06ff-5d48-4822-a5d2-0ab5330a8115" class="bulleted-list"><li style="list-style-type:circle">Connects devices and forwards data packets to and from those devices</li></ul></li></ul><ul id="180a1872-e5dc-4bed-a412-801ac43ce279" class="bulleted-list"><li style="list-style-type:disc">Network Interface Card (NIC)<ul id="531aaa36-1fd9-436d-9cb3-cc625ac9c472" class="bulleted-list"><li style="list-style-type:circle">Allows a device to connect to a network</li></ul><ul id="d81e2643-90b1-45c2-89e4-023ed56d62dc" class="bulleted-list"><li style="list-style-type:circle">Contain the MAC address</li></ul></li></ul><ul id="22528f5d-e81b-4da5-a6ff-d0db176af248" class="bulleted-list"><li style="list-style-type:disc">Wireless Network Interface Card (WNIC)<ul id="69f1ddac-b743-40b5-b4b2-caa9fcf6961c" class="bulleted-list"><li style="list-style-type:circle">Provides interface to wireless network</li></ul><ul id="421b8531-846a-492c-990c-c10b1d646c82" class="bulleted-list"><li style="list-style-type:circle">Receives analogue radio waves</li></ul><ul id="bf2a2103-01c8-4a64-8286-b43dee2d61d2" class="bulleted-list"><li style="list-style-type:circle">Converts them to digital</li></ul><ul id="a7098a08-b807-4d09-952d-6952a4cd7438" class="bulleted-list"><li style="list-style-type:circle">Takes digital input and converts to analogue waves</li></ul></li></ul><ul id="d44bcd3a-26a2-4608-ab9c-5fc0f527a4b2" class="bulleted-list"><li style="list-style-type:disc">Wireless Access Point (WAP)<ul id="89707919-1add-402e-9eab-ada2a529fb0b" class="bulleted-list"><li style="list-style-type:circle">Provides access to a particular wireless network</li></ul></li></ul><ul id="3a637cb2-2a4a-404b-8951-f704d787f3b4" class="bulleted-list"><li style="list-style-type:disc">Bridge<ul id="b08a6aa6-2c61-45b9-857f-dae08d6b18bf" class="bulleted-list"><li style="list-style-type:circle">To connect different bus LAN cable segments</li></ul></li></ul><ul id="7e75c6db-b32d-4b89-a038-c7183ae35ac6" class="bulleted-list"><li style="list-style-type:disc">Gateway<ul id="74d933f2-7aa8-4a9f-a72f-3f88a3877008" class="bulleted-list"><li style="list-style-type:circle">Used between two dissimilar LANs</li></ul></li></ul><ul id="1a023085-0389-432e-a6cd-4f0bc5bf8c1e" class="bulleted-list"><li style="list-style-type:disc">Repeater<ul id="acda77ca-803b-4a10-be3a-8e5d1960083b" class="bulleted-list"><li style="list-style-type:circle">Boosts the signal when travelling a large distance</li></ul></li></ul><ul id="bcd1e05a-21c4-49b4-826d-06b68edf35d2" class="bulleted-list"><li style="list-style-type:disc">Router<ul id="ce084e9b-d581-4b3e-bd2f-0221fe61051a" class="bulleted-list"><li style="list-style-type:circle">Receive data packets from a device</li></ul><ul id="891edf8b-4cf4-4307-9561-0f2e084940f9" class="bulleted-list"><li style="list-style-type:circle">Route each packet to its destination address</li></ul><ul id="3d083534-9108-49b0-a54e-4f04f8dc2d26" class="bulleted-list"><li style="list-style-type:circle">Routing tables show the best possible path for the data packet</li></ul></li></ul><h1 id="7add7f9c-9d77-42a7-ad3b-66203e3353ab" class="">2.6 Ethernet</h1><ul id="b634e09a-a926-4e83-a3db-b89ed435e361" class="bulleted-list"><li style="list-style-type:disc">A protocol</li></ul><ul id="86c84c35-60c5-4772-af18-bd04103015da" class="bulleted-list"><li style="list-style-type:disc">For data transmission over wired network connections</li></ul><ul id="ec60d5c0-8c53-4185-bcae-5c270e06c5b6" class="bulleted-list"><li style="list-style-type:disc">Data is transmitted in frames</li></ul><ul id="50132ad3-a53d-490d-87fb-dd7e7278241c" class="bulleted-list"><li style="list-style-type:disc">Each frame has a source and destination address (IP/MAC)</li></ul><ul id="09112874-b75b-4884-a7d4-a928b3bc783a" class="bulleted-list"><li style="list-style-type:disc">And error checking data, so that damaged frames can be resent</li></ul><h2 id="5fe36ddf-c820-4f0e-8895-857d5699b3b8" class="">Carrier Sense Multiple Access / Collision detection (CSMA/CD)</h2><ul id="44aab422-4a34-47c1-aa3d-569fcb031ac8" class="bulleted-list"><li style="list-style-type:disc">Strategy to avoid collision</li></ul><ul id="3d3afefe-ea14-4c16-985f-ca5da7f1c796" class="bulleted-list"><li style="list-style-type:disc">Steps:<ul id="f5bce50d-7b07-4957-99ca-1f3baa65f8f4" class="bulleted-list"><li style="list-style-type:circle">Sending device will listen to the communications line before attempting to transmit</li></ul><ul id="0629b333-7e7c-400a-826a-7e5d2da9310f" class="bulleted-list"><li style="list-style-type:circle">If the line is not in use, then the device will transmit immediately</li></ul><ul id="8af656ab-832b-4649-abaf-a3783943afea" class="bulleted-list"><li style="list-style-type:circle">More packets are then transmitted with a short time delay between each transmission</li></ul><ul id="8b0bb631-0203-497a-ab90-c49cb20da078" class="bulleted-list"><li style="list-style-type:circle">If the line is in use, the device will wait until the line is later sensed as idle</li></ul><ul id="d5751179-c3cb-4a82-8487-a2523d717a8c" class="bulleted-list"><li style="list-style-type:circle">If a collision is detected, the device will stop sending and jam the line to make sure other devices are aware that they are unable to use the line</li></ul></li></ul><ul id="04284ba4-fa75-49d1-a65e-bca32e4557c6" class="bulleted-list"><li style="list-style-type:disc">Collisions are detected by a voltage change at a node</li></ul><h1 id="4b5065a3-9870-420f-944b-f4a28b96d4f3" class="">2.7 Bit streaming</h1><ul id="90c39ecc-4a26-4877-93b3-78d10b2c4868" class="bulleted-list"><li style="list-style-type:disc">Bit stream is a sequence of bits, representing a stream of data</li></ul><ul id="ff31e0c6-9ba2-44b5-a183-03745447f233" class="bulleted-list"><li style="list-style-type:disc">Speed of transmission is the bit rate</li></ul><h2 id="6a98bf6b-f4cf-4943-97b2-520a677b5bb2" class="">Real-time bit streaming</h2><ul id="f476de87-1aba-4771-bf16-18e14dbb2a09" class="bulleted-list"><li style="list-style-type:disc">Streamed in real time</li></ul><ul id="1459dfe0-f5a2-4675-8bd1-842c41214896" class="bulleted-list"><li style="list-style-type:disc">E.g. live TV, video call</li></ul><h2 id="5de8be4c-163f-43d9-aff0-b57fa22935bf" class="">On-demand bit streaming</h2><ul id="db2da18a-c208-42ad-9498-2ceaf79cd377" class="bulleted-list"><li style="list-style-type:disc">Original broadcasts are available to be viewed at a later date</li></ul><h1 id="8535d9b1-d745-41e8-ba8c-4f2f4bddfe75" class="">2.8 The World Wide Web and Internet</h1><h2 id="51df76c5-9b3d-4443-9c09-dd84687fc73d" class="">The Internet</h2><ul id="333fed17-574d-4f23-a10f-55214ec0f6c1" class="bulleted-list"><li style="list-style-type:disc">Global communication infrastructure that links together computers and networks</li></ul><ul id="02bd4b48-d35f-426b-a56e-6ce982e7ee5c" class="bulleted-list"><li style="list-style-type:disc">Forms a collection of connected internets</li></ul><ul id="93df5d19-9717-4371-9b38-376ce1a6d614" class="bulleted-list"><li style="list-style-type:disc">Is an open network, access to it is provided by Internet Service Providers (ISPs)</li></ul><h2 id="2c88bedc-fa26-464b-b91a-c50ca2bff5af" class="">The World Wide Web (WWW)</h2><ul id="08d4f549-68b9-4469-9ca4-b4dd85045cdb" class="bulleted-list"><li style="list-style-type:disc">Made up of web pages, made available from web servers</li></ul><h2 id="3305a0c9-37c8-4277-a734-eb558d042f57" class="">Uniform Resource Locator (URL)</h2><ul id="0720c914-0b74-4869-bebb-c2326ed46822" class="bulleted-list"><li style="list-style-type:disc">Resource on the WWW could be a web page, a video clip etc.</li></ul><h2 id="b68d12ea-dc96-4112-a0a3-3b666221ed48" class="">Domain Name Service (DNS)</h2><ul id="0d002985-d666-4da8-8bb9-71c071633465" class="bulleted-list"><li style="list-style-type:disc">Web browser requests a resource using the URL</li></ul><ul id="fef93162-a8b1-4912-9382-23ffd74213c9" class="bulleted-list"><li style="list-style-type:disc">A piece of software called the DNS resolver contacts a DNS server to determine the resource’s IP address</li></ul><ul id="52e286f6-bed7-4aa3-8f97-2284cbd4cc3f" class="bulleted-list"><li style="list-style-type:disc">If the DNS server does not contain the mapping, it will forward it to a different DNS server</li></ul><h1 id="74589bc8-f27f-49a7-b24c-26f3c71060a2" class="">2.9 Hardware to support the Internet</h1><h2 id="cab8bb7b-f5aa-475c-97f7-664f52a76a62" class="">The Public Switched Telephone Network (PSTN)</h2><ul id="8181fcd1-8c32-4a0e-8961-0cc6332e9c0a" class="bulleted-list"><li style="list-style-type:disc">Dedicated line between two end-points</li></ul><ul id="5d8ef6f2-7f14-4ec8-a31e-7fdf9baf8013" class="bulleted-list"><li style="list-style-type:disc">Each use of the network requires a “call setup” in which a connection or circuit is established between the two end-points</li></ul><ul id="b975ebf1-0a6a-4495-9f06-c1a7008751a1" class="bulleted-list"><li style="list-style-type:disc">Example of circuit switching</li></ul><h2 id="d2391240-461e-4c4b-8f01-f7f4bcabc33d" class="">Dedicated lines</h2><ul id="56a68eb6-5c37-4116-9c12-95a523f95392" class="bulleted-list"><li style="list-style-type:disc">Communication line dedicated for use by an entity’s own computers only</li></ul><ul id="127d1f62-15fe-41ba-a945-bcf6317ce037" class="bulleted-list"><li style="list-style-type:disc">Provides consistently high data transfer speeds</li></ul><ul id="ac245fcc-d6da-407b-9f65-6fc91a1c8929" class="bulleted-list"><li style="list-style-type:disc">High and consistent bandwidth</li></ul><ul id="27e0fe8b-e5e9-4522-83ff-83852f1c28f6" class="bulleted-list"><li style="list-style-type:disc">Video transmission without buffering and signal degradation</li></ul><h2 id="5166f7b4-5019-4c58-ba44-2a7e5445d86a" class="">A modem</h2><ul id="171a1e40-c6e9-4cc3-9efa-227c0d453e3d" class="bulleted-list"><li style="list-style-type:disc">If data is sent over the PSTN, there is a problem as the computer uses digital data and the PSTN uses analogue data</li></ul><ul id="95f2cd75-065c-40da-8130-df857e623b3c" class="bulleted-list"><li style="list-style-type:disc">Modem is needed at either end of the communication line</li></ul><ul id="54a10dc7-ae34-4bbe-9046-1e26cdb4ace1" class="bulleted-list"><li style="list-style-type:disc">Wireless network uses modems to convert between digital data and radio waves</li></ul><h2 id="1ca6b436-7f81-4c95-9354-5274c5d86739" class="">Cell phone networks</h2><ul id="09960257-a7b9-44f3-a5e5-b26e05f96747" class="bulleted-list"><li style="list-style-type:disc">Land mass is divided into areas called cells</li></ul><ul id="b5ad62d9-635e-4994-b2e4-e31fb3230dce" class="bulleted-list"><li style="list-style-type:disc">At least one transceiver or base station serves each cell</li></ul><ul id="536044e4-be93-42bd-82af-d41cf0da39dd" class="bulleted-list"><li style="list-style-type:disc">Common usage is a mobile phone network</li></ul><h1 id="b306c0ec-5d47-4bd1-a570-3994b8cc653d" class="">2.10 IP addresses and networks</h1><ul id="8111e034-7f44-4a39-95c3-f06e2533d8c9" class="bulleted-list"><li style="list-style-type:disc">IPv4: 32 bits, written as four numbers in dotted decimal notation</li></ul><ul id="e57810b1-4889-4798-8ab5-07e7d74f4499" class="bulleted-list"><li style="list-style-type:disc">IPv6: 128 bits, written as 8 groups of 4 hexadecimal digits</li></ul><ul id="ebaccc51-db16-40ce-953e-edfc839f0c60" class="bulleted-list"><li style="list-style-type:disc">Blocks of IP addresses have been reserved for private network use</li></ul><ul id="36fd0c9e-bc84-4d1e-8268-3290d1869c94" class="bulleted-list"><li style="list-style-type:disc">A public router would ignore any IP addresses from those ranges</li></ul><ul id="06850ec4-3bc6-443b-b621-bd40611d5631" class="bulleted-list"><li style="list-style-type:disc">Several devices on a LAN that use different private IP addresses will communicate across the Internet using a single public IP address</li></ul><ul id="16b485e7-dc7e-4b85-bf7d-18879f811678" class="bulleted-list"><li style="list-style-type:disc">Static IP address is never changed</li></ul><ul id="e7757e86-e764-4ace-b7d9-0feee383d9ea" class="bulleted-list"><li style="list-style-type:disc">When the user requests access to the Internet, the ISP will allocate a dynamic IP address (only when it is needed)</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

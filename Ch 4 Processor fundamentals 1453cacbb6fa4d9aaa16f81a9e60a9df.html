@@ -1,0 +1,686 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ch. 4 Processor fundamentals</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1453cacb-b6fa-4d9a-aa16-f81a9e60a9df" class="page sans"><header><h1 class="page-title">Ch. 4 Processor fundamentals</h1><p class="page-description"></p></header><div class="page-body"><h1 id="7cceb1b4-6770-4b91-b06f-d773d342ba03" class="">4.1 Central Processing Unit (CPU) architecture</h1><h2 id="eeeae682-0028-4026-a7a9-e88a08389c16" class="">Von Neumann model for a computer system</h2><ul id="6751c11f-3011-41bd-9928-ffede79b6fb4" class="bulleted-list"><li style="list-style-type:disc">There is a processor — the central processing unit (CPU)</li></ul><ul id="e968af88-ec9b-458b-873b-0d27e197eb57" class="bulleted-list"><li style="list-style-type:disc">The processor has direct access to memory</li></ul><ul id="a2359fa7-7138-4e4c-8e6f-89dedf2f7709" class="bulleted-list"><li style="list-style-type:disc">The memory contains a “stored program” (which can be replaced by another at any time) and the data required by the program</li></ul><ul id="dd881ef4-1939-4b73-88db-7b38922c2ab7" class="bulleted-list"><li style="list-style-type:disc">The stored program consists of individual instructions</li></ul><ul id="2fbe967f-c4bf-4609-83ea-14d054da132a" class="bulleted-list"><li style="list-style-type:disc">The processor executes instructions sequentially</li></ul><h2 id="8e4efd20-ca30-4d88-aab2-c3854ecb0d84" class="">Understanding of the purpose and role of registers</h2><ul id="68f41722-96e6-4b49-9e97-94c5d2e324c0" class="bulleted-list"><li style="list-style-type:disc">Storage components that allow very short access times</li></ul><ul id="56ef6af6-4272-405f-80a7-a89dab16405f" class="bulleted-list"><li style="list-style-type:disc">Each register has limited storage capacity</li></ul><ul id="5faeee87-0e86-4d81-b27f-3df8cb99238d" class="bulleted-list"><li style="list-style-type:disc">Can be general purpose (e.g. accumulator) or special purpose (e.g. CIR)</li></ul><h2 id="0d0b6354-ffbb-4b16-bc82-b631e58687a7" class="">General purpose register</h2><p id="45a462b3-21ca-435c-adbe-589dbf4a8ad0" class="">The Accumulator (ACC)</p><ul id="11e080e9-70b9-4488-93b3-4fe033632468" class="bulleted-list"><li style="list-style-type:disc">Stores a value at a single time</li></ul><ul id="3070fc71-d828-41c9-bcf6-ffb35e57a035" class="bulleted-list"><li style="list-style-type:disc">To be used by the ALU for the execution of an instruction</li></ul><h2 id="f4739612-7d5f-4182-b2d0-3c2da5039218" class="">Special purpose registers</h2><p id="e258d9c2-ab1e-4cf9-8e9b-c09087f825f7" class="">Program Counter (PC)</p><ul id="74ad59e6-adb6-499f-9fd0-c07ed14d2182" class="bulleted-list"><li style="list-style-type:disc">Stores the address</li></ul><ul id="5d2e3c7a-d483-40f2-b002-e01387519582" class="bulleted-list"><li style="list-style-type:disc">of the next instruction to be fetched</li></ul><p id="eac74a2f-a2be-4679-8079-16807172d454" class="">Memory Address Register (MAR)</p><ul id="811f0eff-2085-4e40-ad1d-61b3e3710536" class="bulleted-list"><li style="list-style-type:disc">Stores the next address to be fetched</li></ul><ul id="ed665607-f70d-48f7-97fb-f736ca7b0a61" class="bulleted-list"><li style="list-style-type:disc">held in the Program Counter (PC)</li></ul><ul id="af76c545-8f62-4600-9cb3-59bbbe9dc69d" class="bulleted-list"><li style="list-style-type:disc">The data at this address is then fetched</li></ul><p id="d5635507-f990-48af-847c-43ad008288e1" class="">Memory Data Register (MDR)</p><ul id="38187182-fdc7-4d96-a121-ca525a548ad7" class="bulleted-list"><li style="list-style-type:disc">Stores the data from the address pointed to by the MAR</li></ul><ul id="c37f5881-6089-485e-82e0-ef493c913267" class="bulleted-list"><li style="list-style-type:disc">The data in it is copied to the Current Instruction Register (CIR)</li></ul><p id="743d3c2e-a18b-440a-9db2-44b314f442b3" class="">Current Instruction Register (CIR)</p><ul id="7bae6967-0178-425b-b394-662d21480055" class="bulleted-list"><li style="list-style-type:disc">Stores the current instruction while it is being decoded and executed</li></ul><p id="8957a0af-3983-4e4b-af0e-343d365d8534" class="">Index Register (IX)</p><ul id="2fd9a394-4ee0-486b-bca7-2f98d2daa1f9" class="bulleted-list"><li style="list-style-type:disc">Stores a value only for index addressing</li></ul><p id="24f340ef-221d-4b1e-84ca-c8e457b4358a" class="">Status Register (SR)</p><ul id="80b1d703-9baf-4c5f-a974-329a4bf151df" class="bulleted-list"><li style="list-style-type:disc"><strong>Interpreted as independent bits/flags</strong></li></ul><ul id="970b31c4-ebf3-43f9-a725-58f178af7161" class="bulleted-list"><li style="list-style-type:disc"><strong>Each flag is set depending on an event</strong></li></ul><ul id="06b371b7-4fa1-4503-9ba2-0a6b1e0f1e36" class="bulleted-list"><li style="list-style-type:disc">Addition overflow/result of operation is zero etc.</li></ul><ul id="d06ed7d4-60ce-4f44-8d0a-2992b2a9c18c" class="bulleted-list"><li style="list-style-type:disc">Overflow flag (V) is set to 1 if an arithmetic operation results in an OVERFLOW being produced</li></ul><ul id="6d1b068e-fc9d-4416-b7a3-191912ff7427" class="bulleted-list"><li style="list-style-type:disc">Carry flag (C) is set to 1 if there is a CARRY following an addition operation</li></ul><ul id="4c11926b-2abd-4fea-8356-daf206a1e1d7" class="bulleted-list"><li style="list-style-type:disc">Negative flag (N) is set to 1 if the result of a calculation yields a NEGATIVE value</li></ul><ul id="db92644d-7678-46f6-bc14-3fbacbe0bc09" class="bulleted-list"><li style="list-style-type:disc">Zero flag (Z) is set to 1 if the result of an arithmetic or logic operation is ZERO</li></ul><h2 id="96f8b8a7-4f10-4e2e-bf47-b63fd8fa89e1" class="">Purpose and roles of Arithmetic and Logic Unit (ALU), Control Unit (CU) and system clock, Immediate Access Store (IAS)</h2><p id="01cdddaa-553c-4245-8746-ca0a034cc6bd" class="">Arithmetic Logic Unit (ALU)</p><ul id="fad07544-5a31-4974-a0a6-58682ba918cc" class="bulleted-list"><li style="list-style-type:disc">Performs arithmetic operations</li></ul><ul id="8d440717-dc5c-4b22-b5c0-7bb85fe3cd2f" class="bulleted-list"><li style="list-style-type:disc">and logical comparisons</li></ul><p id="b187c512-56b3-4aad-b857-03cec69e7832" class="">Control Unit (CU)</p><ul id="d31b0a48-efdd-44f6-814f-16a00415ecc2" class="bulleted-list"><li style="list-style-type:disc">Sends and receive signals</li></ul><ul id="cf6fa494-c34b-44c5-bd6a-e1b6b03c3886" class="bulleted-list"><li style="list-style-type:disc">Synchronises operations</li></ul><ul id="ad1396e5-964a-4555-8a6e-12519d39915a" class="bulleted-list"><li style="list-style-type:disc">to execute instructions</li></ul><ul id="cc66148f-f81c-4097-b146-b70d68349313" class="bulleted-list"><li style="list-style-type:disc">E.g. input, output</li></ul><p id="a361ca58-e516-409d-a205-1df6e880a88e" class="">System clock</p><ul id="d8a2d6dd-b582-4f4c-bd42-d5794296512d" class="bulleted-list"><li style="list-style-type:disc">Synchronises processes</li></ul><ul id="b93c1e42-4aa4-4413-94c6-ea24b1dba4ea" class="bulleted-list"><li style="list-style-type:disc">Controls activities outside the processor</li></ul><p id="6a459976-7db7-4d45-99bb-8a1ca80a0377" class="">Immediate Access Store (IAS)</p><ul id="1f19a8c2-ae3f-45e6-8402-dfd770d556c3" class="bulleted-list"><li style="list-style-type:disc">The components that are directly addressable by the processor</li></ul><h2 id="2c46dcb5-dfe4-4a2e-bfff-3f11438c8a5a" class="">How data are transferred between various components of the computer system using the address bus, data bus and control bus</h2><ul id="6e404b1a-0690-40f7-8b0d-de747a276892" class="bulleted-list"><li style="list-style-type:disc">Address bus<ul id="9145b8c6-eec3-4f1c-a6b1-97b07caaa112" class="bulleted-list"><li style="list-style-type:circle">Used to carry an address</li></ul><ul id="138a5c37-7793-4054-a7e9-c9078919700b" class="bulleted-list"><li style="list-style-type:circle">Address is loaded on the bus from the MAR as directed by the CU</li></ul><ul id="0104c344-3ab5-4eff-b2d0-c12d4002a90b" class="bulleted-list"><li style="list-style-type:circle">Address specifies a location in memory or an I/O component which is due to receive data or from which data is to be read</li></ul><ul id="614d193d-e2d4-4d11-b46d-286c0214b2b7" class="bulleted-list"><li style="list-style-type:circle">One-way, only be used to send an address to a memory controller or an I/O controller</li></ul></li></ul><ul id="8859addf-01b7-4cc9-871e-e4a35bfab1ee" class="bulleted-list"><li style="list-style-type:disc">Data bus<ul id="4fa6ef42-7800-47c2-84bc-2e5b6a2fe865" class="bulleted-list"><li style="list-style-type:circle">Used to carry data</li></ul><ul id="555c4549-10bb-4dba-8176-65fd3932fab0" class="bulleted-list"><li style="list-style-type:circle">Can be an instruction, an address or a value</li></ul><ul id="1a360d7c-b4d7-4984-8c51-7c8bfe8abd57" class="bulleted-list"><li style="list-style-type:circle">Two-way, can be carrying data to or from an I/O device</li></ul></li></ul><ul id="fbb2f4ec-995e-4e46-98b2-ecba14c13739" class="bulleted-list"><li style="list-style-type:disc">Control bus<ul id="d02fd56d-7633-493a-acf9-a2663d23dbdf" class="bulleted-list"><li style="list-style-type:circle">Two-way, transmits a signal from the control unit to or from any other system component</li></ul><ul id="6a208dc9-bc61-4914-8118-988a670fff7b" class="bulleted-list"><li style="list-style-type:circle">Major use is to carry timing signals for the system clock</li></ul><ul id="d5488691-6fdb-4296-987b-d2226930e06f" class="bulleted-list"><li style="list-style-type:circle">Signals it can transfer: Interrupt, timing, read, write</li></ul></li></ul><h2 id="78088d7b-7fbd-435c-89b8-17b53e75d9f9" class="">How factors contribute to the performance of the computer system, including processor type and number of cores, the bus width, clock speed and cache memory</h2><ul id="434e046a-4f62-4e5d-9815-dc3896a0d359" class="bulleted-list"><li style="list-style-type:disc">Clock sends out a number of pulses in a given time interval</li></ul><ul id="2a4ec988-b7e7-4a41-8910-e0f35b5c060a" class="bulleted-list"><li style="list-style-type:disc">Increasing clock speeds would increase the processing speed</li></ul><ul id="6fcb4e5d-34eb-4951-b8a1-93ebacde0cc3" class="bulleted-list"><li style="list-style-type:disc">But overall performance does not necessarily increase</li></ul><ul id="1ed27c84-91f3-47d1-bd9f-79530315e9af" class="bulleted-list"><li style="list-style-type:disc">Factors to be considered:<ol type="1" id="b3c92f90-5791-4b9d-adea-65aac05eb413" class="numbered-list" start="1"><li>Width of the address bus and data bus</li></ol><ol type="1" id="4346cbaf-54f4-42df-8652-3faa67765f23" class="numbered-list" start="2"><li>Overclocking: changing the clock speed by accessing the BIOS, however some problems might arise<ul id="2f55d60b-d722-4b84-87c7-31e07cee6c35" class="bulleted-list"><li style="list-style-type:disc">execution of instructions outside design limits which leads to unsynchronised operations</li></ul><ul id="709d2a87-a485-4720-8a68-56d7618394c4" class="bulleted-list"><li style="list-style-type:disc">serious overheating of the CPU leading to unreliable performance</li></ul></li></ol><ol type="1" id="73636754-e857-4563-b58b-73f646eda559" class="numbered-list" start="3"><li>Use of cache memory<ul id="df7cac99-79a2-41cd-a9b6-2407c2608c01" class="bulleted-list"><li style="list-style-type:disc">cache uses SRAM while DRAM is used for main memory</li></ul><ul id="237a88fe-4f5b-44e4-a65f-1a659523ab26" class="bulleted-list"><li style="list-style-type:disc">faster access times since no need for refreshing</li></ul></li></ol><ol type="1" id="4b7134a2-2f50-40e5-bd06-8158c48b69bf" class="numbered-list" start="4"><li>Number of cores<ul id="2821e4a6-b6d8-454a-b0c5-3fc49ba4ee88" class="bulleted-list"><li style="list-style-type:disc">more cores can improve computer performance</li></ul><ul id="3bdba259-db07-47cc-a44d-3e475f010e75" class="bulleted-list"><li style="list-style-type:disc">alleviates the need to continually increase clock speeds</li></ul><ul id="63521174-65df-4130-8dcb-1b810869f328" class="bulleted-list"><li style="list-style-type:disc">however CPU has to communicate with more cores which might reduce potential performance</li></ul></li></ol></li></ul><h2 id="4549ac7f-043d-42a7-a1a5-8f0da5662113" class="">How different ports provide connection to peripheral devices, including connection to Universal Serial Bus (USB), High Definition Multimedia Interface (HDMI) and Video Graphics Array (VGA)</h2><ul id="45e89da5-9604-4c70-84ff-37c5577bc2af" class="bulleted-list"><li style="list-style-type:disc">USB ports<ul id="7d4ecda5-d44c-4139-8a44-cb14fa20d4bb" class="bulleted-list"><li style="list-style-type:circle">the computer automatically detects that a device is present, due to a small change in the voltage level on the data signal wires</li></ul><ul id="df2a3f85-9f0d-440d-a03b-add7bad703e6" class="bulleted-list"><li style="list-style-type:circle">the device is automatically recognised, the appropriate device driver is loaded up so that computer and device can communicate effectively</li></ul><ul id="3c43a2ad-c856-409f-aea2-0c22849a1704" class="bulleted-list"><li style="list-style-type:circle">if a new device is detected, the computer will look for the device driver which matches the device</li></ul></li></ul><ul id="acfeb6dd-e086-4a7c-8cd6-a82859c98f8a" class="bulleted-list"><li style="list-style-type:disc">High-definition multimedia interface (HDMI)<ul id="dc4dd383-5e49-4634-bba9-fdcd357b1392" class="bulleted-list"><li style="list-style-type:circle">allows output (both audio and visual) to an HDMI-enabled device</li></ul><ul id="8b1cc378-38b7-442b-a925-15d33b0af77d" class="bulleted-list"><li style="list-style-type:circle">support high-definition signals</li></ul><ul id="e2d5d771-1091-49de-86c5-563c113814a7" class="bulleted-list"><li style="list-style-type:circle">digital replacement for the older Video Graphics Array (VGA) analogue system</li></ul><ul id="d685ea93-1b4b-4284-b525-853306eb848c" class="bulleted-list"><li style="list-style-type:circle">increases the bandwidth, making it possible to supply the necessary data for high quality sound and visual effects</li></ul></li></ul><ul id="01d5fd13-771c-4bb8-b7d8-85667ca2d908" class="bulleted-list"><li style="list-style-type:disc">Video Graphics Array (VGA)<ul id="fec4e57d-b349-4ed8-a688-da463f0b656c" class="bulleted-list"><li style="list-style-type:circle">supports 640 * 480 pixel resolution and refresh rate up to 60 Hz</li></ul></li></ul><h2 id="827bd4e7-3ad2-42af-b410-989e352fe5df" class="">Describe the stages of the Fetch-Execute (F-E) cycle</h2><p id="78d34b1d-42a0-4df8-857e-e955aa973681" class=""><mark class="highlight-yellow_background">Fetch</mark></p><ul id="9bb72a7c-7da1-4e20-90a8-3ad98617ac38" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow_background">Next instruction is fetched from the memory address currently stored in the program counter (PC) and stored in the current instruction register (CIR)</mark></li></ul><ul id="8651f745-bafb-4d50-9420-320401317bc5" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow_background">PC is incremented so the next instruction can be processed</mark></li></ul><ul id="be1085c5-0f17-460a-a309-c38055762d51" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow_background">Decoded so that each instruction can be interpreted in the next part of the cycle</mark></li></ul><p id="590aa740-81b8-4c3d-b6ff-f593775a8325" class=""><mark class="highlight-teal_background">Execute</mark></p><ul id="2b12bf83-0e34-4eb1-acfe-48b8d014612d" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-teal_background">The processor passes the decoded instruction as a set of control signals to the appropriate components within the computer system</mark></li></ul><ul id="c2081c2e-8b25-423e-9e9a-c54595ddec8b" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-teal_background">Allows each instruction to be carried out in its logical sequence</mark></li></ul><p id="84329965-6bd9-4f5b-ae4b-e64cf7b9fc54" class="">For the whole F-E cycle:</p><ol type="1" id="fddcb23f-bd2d-47f5-8e10-04f86f95a5f7" class="numbered-list" start="1"><li><mark class="highlight-yellow_background">The </mark><strong><mark class="highlight-yellow_background">PC </mark></strong><mark class="highlight-yellow_background">contains the address of the memory location of the next instruction which has to be fetched</mark></li></ol><ol type="1" id="205672a8-66ff-44d4-b6e8-44a10d4eafb0" class="numbered-list" start="2"><li><mark class="highlight-yellow_background">This address is then copied from the </mark><strong><mark class="highlight-yellow_background">PC </mark></strong><mark class="highlight-yellow_background">to the </mark><strong><mark class="highlight-yellow_background">MAR </mark></strong><mark class="highlight-yellow_background">using the address bus</mark></li></ol><ol type="1" id="edbfc15e-6150-40df-b946-1ebd2df6df37" class="numbered-list" start="3"><li><mark class="highlight-yellow_background">The instruction at the address contained in </mark><strong><mark class="highlight-yellow_background">MAR </mark></strong><mark class="highlight-yellow_background">are then copied temporarily into the </mark><strong><mark class="highlight-yellow_background">MDR</mark></strong></li></ol><ol type="1" id="cff7d59d-7109-4c82-be6c-1093a121df68" class="numbered-list" start="4"><li><mark class="highlight-yellow_background">The instruction of the </mark><strong><mark class="highlight-yellow_background">MDR </mark></strong><mark class="highlight-yellow_background">are then copied and placed into the </mark><strong><mark class="highlight-yellow_background">CIR</mark></strong></li></ol><ol type="1" id="c2738bff-14f9-4240-90b4-1c846a835272" class="numbered-list" start="5"><li><mark class="highlight-yellow_background">The value in the </mark><strong><mark class="highlight-yellow_background">PC </mark></strong><mark class="highlight-yellow_background">is then incremented by one so that it now points to the next instruction which has to be fetched</mark></li></ol><ol type="1" id="b9730d38-686e-47b2-b525-d4f8e2de3394" class="numbered-list" start="6"><li><mark class="highlight-teal_background">The instruction is finally decoded and then executed by sending out signals via the control bus to the various components of the computer system</mark></li></ol><p id="8512c1c9-91b7-4163-8ae4-6f7d7a6f3a31" class="">Using Register Transfer Notation: (fetch stage only)</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="dc8621f5-c16c-42d2-943e-a6571ce3b96e" class="code"><code class="language-Plain Text">MAR &lt;- [PC]
+PC &lt;- [PC] + 1; MDR &lt;- [[MAR]]
+CIR &lt;- [MDR]</code></pre><p id="0885773b-ac46-4a0f-a838-7305a9015159" class="">Note: square brackets mean the data stored in the entity</p><p id="e929f997-834d-45a6-aeef-b7e6af93b62f" class="">[MAR] is the address stored in MAR</p><p id="3aa49d7b-4ebe-41c8-a3de-b037c66d4a3f" class="">[[MAR]] is the data stored at the address stored in MAR</p><h2 id="a315a902-bc4b-480b-8bbf-4dc085c97520" class="">Show understanding of the purpose of interrupts, including possible causes of interrupts, applications of interrupts, use of an Interrupt Service Handling Routine (ISR), when interrupts are detected during the fetch-execute cycle and how interrupts are handled</h2><p id="91ca7011-a21b-48cf-9fa6-ae9075fbea1e" class="">Reasons for an interrupt to be generated includes:</p><ul id="1bb51927-1820-4895-8d05-daa78ef28c5b" class="bulleted-list"><li style="list-style-type:disc">a hardware fault</li></ul><ul id="95641971-f784-4152-aab2-931608ba285c" class="bulleted-list"><li style="list-style-type:disc">I/O request</li></ul><ul id="2f559c2d-641d-4dac-aec9-24343a4684e2" class="bulleted-list"><li style="list-style-type:disc">program/software error</li></ul><ul id="d90b1356-14ed-4dbf-9d75-5f0548ae04bc" class="bulleted-list"><li style="list-style-type:disc">a timer signal</li></ul><ul id="c940bd25-09a4-45ac-9150-a42f7b3139ef" class="bulleted-list"><li style="list-style-type:disc">user interaction</li></ul><p id="bc25645a-7a4c-469f-af58-d004f59bc79e" class="">An interrupt is handled by the following steps:</p><ul id="508ce280-b38f-4b51-a1d5-ee4c2f727978" class="bulleted-list"><li style="list-style-type:disc">At the END of the fetch-execute cycle (F-E cycle) the processor checks for interrupts</li></ul><ul id="0cc3216a-0ab2-4a05-ae8d-db3b6940b4c0" class="bulleted-list"><li style="list-style-type:disc">If an interrupt flag is set</li></ul><ul id="77f4e45a-983d-4e6f-9fd4-786ec2ac7236" class="bulleted-list"><li style="list-style-type:disc">All contents of registers are saved</li></ul><ul id="6bf94999-b2a3-405b-9b57-aebf5a5847fe" class="bulleted-list"><li style="list-style-type:disc">PC loaded with address of interrupt service routine</li></ul><ul id="89bd6feb-0e59-4848-a31b-3ee011585b51" class="bulleted-list"><li style="list-style-type:disc">When servicing of interrupts complete, processor restores registers</li></ul><ul id="867884f1-4d3f-4194-a5da-b9ea6c8c310a" class="bulleted-list"><li style="list-style-type:disc">Processor continues with next F-E cycle</li></ul><ul id="39477108-b996-4dcf-a681-2e8ac8c27bba" class="toggle"><li><details open=""><summary>Archive</summary><ul id="b14a4fdd-df28-4e52-aae1-eac382e0df26" class="bulleted-list"><li style="list-style-type:disc">The contents of the program counter and any other registers are stored somewhere safe in memory</li></ul><ul id="0d9b66f7-81ae-4304-8420-75798cfa9638" class="bulleted-list"><li style="list-style-type:disc">The appropriate interrupt handler or Interrupt Service Routine (ISR) program is initiated by loading its start address into the program counter</li></ul><ul id="c12a63cd-78e1-4ba4-9edd-605acc9da3c8" class="bulleted-list"><li style="list-style-type:disc">When the ISR program has been executed there is an immediate check to see if further interrupts need handling</li></ul><ul id="ffed253f-f6fa-4e72-a75b-13113f890e2f" class="bulleted-list"><li style="list-style-type:disc">Further interrupts are dealt with by repeated execution of the ISR program</li></ul><ul id="14e8117d-e4e1-4af6-87bf-d05ad6512294" class="bulleted-list"><li style="list-style-type:disc">If there are no further interrupts, the safely stored contents of the registers are restored to the CPU and the originally running program is resumed</li></ul></details></li></ul><h1 id="a4cb07ad-ae15-400c-8ea4-bcde525a5029" class="">4.2 Assembly language</h1><ul id="4f79be0e-8353-4fab-8ff5-0c3489a3242f" class="bulleted-list"><li style="list-style-type:disc">The only language that the CPU recognises is machine code</li></ul><ul id="abb2f9ef-27ac-43e7-acb8-2a8ceee11fed" class="bulleted-list"><li style="list-style-type:disc">Machines code consists of a sequence of instructions</li></ul><ul id="e711f1f0-4bc3-420a-8f5b-36556c18cca0" class="bulleted-list"><li style="list-style-type:disc">An instruction contains an <strong>opcode (the action the CPU has to perform)</strong></li></ul><ul id="cc3677cb-43f1-48a9-ab1a-5af5059dbe4c" class="bulleted-list"><li style="list-style-type:disc">An instruction may not have an operand but up to three <strong>operands (the data to be used by the CPU) </strong>are possible</li></ul><ul id="c8a7477d-6187-4017-89e7-452be3d6fc71" class="bulleted-list"><li style="list-style-type:disc">Different processors have different instruction sets associated with them</li></ul><ul id="a8aa05a3-5552-41c2-9d70-f60851daae8d" class="bulleted-list"><li style="list-style-type:disc">Different processors will have comparable instructions for the same operations, but the coding of the instructions will be different</li></ul><p id="536c4964-f656-43da-8fb5-5666f4682dd7" class="">Relationship between assembly language and machine code</p><ul id="97e1bfad-321f-4fca-aebc-3e559f74fb90" class="bulleted-list"><li style="list-style-type:disc">A programmer might wish to write a program where the actions taken by the processor are directly controlled</li></ul><ul id="19a33df5-74ff-4a2a-9823-2db303bdc3a0" class="bulleted-list"><li style="list-style-type:disc">However writing a substantial program as a sequence of machine code instructions would take a very long time</li></ul><ul id="e40f681c-9b8a-49ef-bb71-97c76b7d813c" class="bulleted-list"><li style="list-style-type:disc">Solution is to use assembly language</li></ul><ul id="46f47dac-d75e-46c5-adee-532ab5db1f51" class="bulleted-list"><li style="list-style-type:disc">For each machine code instruction there is an equivalent assembly language instruction which comprises<ul id="c937cc87-3d62-4e64-ad21-bb87fba7a6a4" class="bulleted-list"><li style="list-style-type:circle">a mnemonic (a symbolic abbreviation) for the opcode</li></ul><ul id="37bb8150-24f8-4932-a96d-386a92eea243" class="bulleted-list"><li style="list-style-type:circle">a character representation for the operand</li></ul></li></ul><ul id="40d4f128-89eb-4326-bb96-8e871e6a924c" class="bulleted-list"><li style="list-style-type:disc">The assembly code is translated into machine code before it can be executed by the processor, and the translation program is called an assembler</li></ul><ul id="e2b3a351-5e97-43d7-b0f2-172d7f317be4" class="bulleted-list"><li style="list-style-type:disc">The use of the assembler allows special features such as:<ul id="52e9972b-5d6f-4db8-8452-b1bb9c12869a" class="bulleted-list"><li style="list-style-type:circle">comments</li></ul><ul id="50517479-bc88-49ae-ae01-ffd66003f714" class="bulleted-list"><li style="list-style-type:circle">symbolic name for constants</li></ul><ul id="61c00dd9-b214-43fd-a60c-196fa5f8de2d" class="bulleted-list"><li style="list-style-type:circle">labels for addresses</li></ul><ul id="e8b234cb-8b46-4399-a6ac-a4fe59593208" class="bulleted-list"><li style="list-style-type:circle">macros</li></ul><ul id="66ab158d-c712-4295-ad40-bdffa8428d54" class="bulleted-list"><li style="list-style-type:circle">directives</li></ul></li></ul><h2 id="784d05ec-aabd-440b-ba74-36252cbaf588" class="">Different stages of the assembly process for a two-pass assembler</h2><h3 id="906b0388-736a-445c-bee2-70cf70516081" class="">Pass 1</h3><ul id="80def28b-8863-46b9-bade-6c75a026fb8d" class="bulleted-list"><li style="list-style-type:disc">Read the assembly language program one line at a time.</li></ul><ul id="77c5d3d8-5ef9-42e3-8faa-4cad24c895b0" class="bulleted-list"><li style="list-style-type:disc">Ignore anything not required, such as comments.</li></ul><ul id="597bf13b-7243-4f80-8552-fe397da6ecd9" class="bulleted-list"><li style="list-style-type:disc">Allocate a memory address for the line of code.</li></ul><ul id="ab9790aa-568a-449c-85d1-556f5bf3d303" class="bulleted-list"><li style="list-style-type:disc">Check the opcode is in the instruction set.</li></ul><ul id="2d8e487a-f47e-4002-bb80-fe63b7e36660" class="bulleted-list"><li style="list-style-type:disc">Add any new labels to the symbol table with the address, if known.</li></ul><ul id="b869813b-a18e-48ab-88d7-b983e3969e31" class="bulleted-list"><li style="list-style-type:disc">Place address of labelled instruction in the symbol table.</li></ul><h2 id="d32ae3a9-3195-46ba-9373-8a6a709c90ab" class="">Pass 2</h2><ul id="6db466f5-49d0-4210-9412-8804e6f2f07c" class="bulleted-list"><li style="list-style-type:disc">Read the assembly language program one line at a time.</li></ul><ul id="419e9379-0afb-46d1-9eff-3bed21901376" class="bulleted-list"><li style="list-style-type:disc">Generate object code, including opcode and operand, from the symbol table generated in Pass 1.</li></ul><ul id="83943051-06be-4dd0-8e5e-9e1ae857872c" class="bulleted-list"><li style="list-style-type:disc">Save or execute the program.</li></ul><h2 id="b73b33c6-6cda-4d7a-9057-11be8ec1963a" class="">Trace an assembly program</h2><h2 id="229ba59b-306d-45c5-8c93-f3f999017e12" class="">A set of instructions are grouped: data movement, input and output of data, arithmetic operations, unconditional and conditional instructions and compare instructions</h2><h2 id="4b9212a6-8e2e-412b-90be-4b4c28dde0e1" class="">Different modes of addressing: immediate, direct, indirect, indexed, relative</h2><table id="4ca88498-8eb6-4cb4-8ed0-09d01618c9cd" class="simple-table"><thead class="simple-table-header"><tr id="3ccc1ab4-f400-4f76-bd11-22fdac5a8d80"><th id="qGz?" class="simple-table-header-color simple-table-header" style="width:345px">Addressing mode</th><th id="QeY&gt;" class="simple-table-header-color simple-table-header" style="width:345px">Use of the operand</th></tr></thead><tbody><tr id="8d8bd687-d0c7-4fa4-b29e-c7657b86c756"><th id="qGz?" class="simple-table-header-color simple-table-header" style="width:345px">Immediate</th><td id="QeY&gt;" class="" style="width:345px">The operand is the value to be used in the instruction</td></tr><tr id="25e523bf-b4a6-483d-a1a4-58199717bd70"><th id="qGz?" class="simple-table-header-color simple-table-header" style="width:345px">Direct</th><td id="QeY&gt;" class="" style="width:345px">The operand is the address which holds the value to be used in the instruction</td></tr><tr id="1c289255-265c-4bfa-8770-91ab76d8ed6c"><th id="qGz?" class="simple-table-header-color simple-table-header" style="width:345px">Indirect</th><td id="QeY&gt;" class="" style="width:345px">The operand is an address that holds the address which has the value to be used in the instruction</td></tr><tr id="b5cdafd5-6eaa-465b-a485-ac11179dc6ff"><th id="qGz?" class="simple-table-header-color simple-table-header" style="width:345px">Indexed</th><td id="QeY&gt;" class="" style="width:345px">The operand is an address to which must be added the value currently in the index register (IX) to get the address which holds the value to be used in the instruction</td></tr></tbody></table><h1 id="7996a44a-73e9-4ae5-97cd-c39874495f57" class="">4.3 Bit manipulation</h1><h2 id="af623f5e-ce64-46b8-8078-84237ac42421" class="">Understand and perform binary shifts: logical, arithmetic and cyclic; left shift, right shift</h2><p id="731606b5-0d24-473f-b53c-e0d489761cd6" class="">A shift involves moving the bits stored in a register a given number of places within the register</p><ul id="686c6476-c87c-4ad9-9341-193a55f2718b" class="bulleted-list"><li style="list-style-type:disc">Logical shift<ul id="ebd75ea7-0234-4530-aeea-e1b7d3b6226a" class="bulleted-list"><li style="list-style-type:circle">Bits shifted out of the register are replaced with zeros</li></ul><ul id="9ccc0598-a90e-48bc-86e7-7568dae0d7ec" class="bulleted-list"><li style="list-style-type:circle">E.g. 10101111 shifted left logically three places would become 01111000</li></ul></li></ul><ul id="5bb3beb8-5479-4332-bd85-81bc5426e20f" class="bulleted-list"><li style="list-style-type:disc">Arithmetic shift<ul id="07ea2257-d6f1-4953-bba4-f84ba84dad70" class="bulleted-list"><li style="list-style-type:circle">The sign of the number is preserved</li></ul><ul id="29b99360-43f4-46e6-96ae-d94f9f6678c9" class="bulleted-list"><li style="list-style-type:circle">E.g. 10101111 shifted right arithmetically three places would become 11110101 (basically cyclic shift but the sign bit is preserved)</li></ul></li></ul><ul id="a62bb5d9-7aa2-4375-8685-3013cad8b6a0" class="bulleted-list"><li style="list-style-type:disc">Cyclic shift<ul id="f9f9dc92-36ea-4a8b-822e-cab1ad1de060" class="bulleted-list"><li style="list-style-type:circle">No bits are lost during a shift</li></ul><ul id="cf680a90-ff94-4a81-8ccd-e4ba4a418b46" class="bulleted-list"><li style="list-style-type:circle">Bits shifted out of one end of the register are introduced at the other end of the register</li></ul></li></ul><ul id="77a30dab-3483-44d9-9662-fd77ce4e07e9" class="bulleted-list"><li style="list-style-type:disc">Left shift<ul id="598433ed-5442-4432-9e32-ffe1b2f81284" class="bulleted-list"><li style="list-style-type:circle">Bits shifted to the left, gives the direction for the above shifts only</li></ul></li></ul><ul id="de2a37da-f12f-46de-91d9-4e0468bd39f1" class="bulleted-list"><li style="list-style-type:disc">Right shift<ul id="ccde0af4-e1c8-41ce-b423-088720165006" class="bulleted-list"><li style="list-style-type:circle">Bits shifted to the right, gives the direction for the above shifts only</li></ul></li></ul><h2 id="0661c819-0025-4f7e-bf89-054730f8549a" class="">How bit manipulation can be used to monitor/control a device</h2><ul id="b9def040-53f5-47bc-9de8-a5586bc367df" class="bulleted-list"><li style="list-style-type:disc">In monitoring and control, each bit in a register or memory location can be used as a flag and would need to be tested, set or cleared separately</li></ul><ul id="02b177eb-8a24-4b73-bf91-72d506784a5f" class="bulleted-list"><li style="list-style-type:disc">AND is used to check if the bit has been set, OR is used to set the bit and XOR is used to clear a bit that has been set</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
